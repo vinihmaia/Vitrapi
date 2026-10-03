@@ -35,12 +35,20 @@
   .btn-y:hover{box-shadow:0 8px 24px rgba(245,183,0,.35)}
   .btn-dark{background:var(--carvao);color:#fff}
   .btn-dark:hover{box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .btn-outline{background:transparent;border-color:var(--carvao);color:var(--carvao)}
+  .btn-outline:hover{background:var(--carvao);color:#fff}
+  .envio{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .envio .btn{padding:12px 10px;cursor:pointer}
+  @media(max-width:560px){.envio{grid-template-columns:1fr}}
   .btn-ghost{border-color:var(--carvao);color:var(--carvao)}
   .btn-ghost:hover{background:var(--carvao);color:#fff}
   @media(max-width:720px){.links{display:none}}
 
   /* hero */
   .hero{padding:96px 0 80px;position:relative;overflow:hidden}
+  .hero{isolation:isolate}
+  .hero .btn-ghost{background:#F7F7F5}
+  .hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1}
   .tag{display:inline-block;font-family:var(--mono);font-size:13px;background:var(--carvao);color:var(--amarelo);padding:6px 12px;border-radius:6px;margin-bottom:24px}
   h1{font-size:clamp(36px,6vw,64px);line-height:1.08;font-weight:700;letter-spacing:-1.5px;max-width:800px}
   h1 em{font-style:normal;background:linear-gradient(transparent 60%,var(--amarelo) 60%)}
@@ -84,7 +92,8 @@
   .step p{color:#aaa;font-size:15px}
 
   /* sobre */
-  .sobre{display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:center}
+  .sobre{display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:start}
+  .fotos{display:grid;gap:40px}
   .foto{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:var(--carvao)}
   .foto img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:saturate(.9)}
   .foto::after{content:'';position:absolute;inset:0;border:3px solid var(--amarelo);border-radius:20px;transform:translate(14px,14px);pointer-events:none;z-index:-1}
@@ -92,7 +101,19 @@
   .foto.sem img{display:none}.foto.sem .ph{display:grid}
   .sobre p{color:#555;margin-top:16px;font-size:16px}
   .assin{font-family:var(--mono);color:var(--amarelo);font-weight:700;margin-top:24px;display:block}
-  @media(max-width:820px){.sobre{grid-template-columns:1fr}.foto{max-width:360px}}
+  @media(max-width:820px){.sobre{grid-template-columns:1fr}.foto{max-width:360px;width:100%}.fotos{display:contents}.sobre>div:last-child{order:2}.foto2{order:3}}
+  /* formação e certificados */
+  .formacao{margin-top:28px;padding-top:24px;border-top:1px solid var(--cinza2)}
+  .formacao h3{font-family:var(--mono);font-size:13px;font-weight:500;color:#8a6a00;margin:0 0 12px;letter-spacing:.02em}
+  .formacao h3::before{content:'// '}
+  .formacao .grau{font-size:16px;color:var(--carvao);font-weight:600;margin:0 0 4px}
+  .formacao .grau small{display:block;font-weight:400;color:#777;font-size:14px;margin-top:2px}
+  .certs{list-style:none;padding:0;margin:0 0 4px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .certs li{background:#fff;border:1px solid var(--cinza2);border-radius:12px;padding:12px 14px;transition:all .2s}
+  .certs li:hover{border-color:var(--amarelo);transform:translateY(-2px)}
+  .certs b{display:block;font-size:14px;line-height:1.35;color:var(--carvao);font-weight:600}
+  .certs span{display:block;font-family:var(--mono);font-size:12px;color:#777;margin-top:4px}
+  @media(max-width:560px){.certs{grid-template-columns:1fr}}
 
   /* preços */
   .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:48px;align-items:stretch}
@@ -100,6 +121,9 @@
   .plan:hover{box-shadow:0 24px 60px rgba(0,0,0,.14)}
   .plan.sel{border-color:var(--amarelo);box-shadow:0 24px 60px rgba(245,183,0,.28)}
   .plan.sel h3::after{content:' ✓';color:var(--amarelo)}
+  .plan .plan-cta{visibility:hidden;opacity:0;transition:opacity .25s;justify-content:center}
+  .plan.sel .plan-cta{visibility:visible;opacity:1}
+  .plan:focus-visible{outline:3px solid var(--amarelo);outline-offset:3px}
   .plans{perspective:1200px}
   .plan.hl{border:2px solid var(--carvao);box-shadow:0 20px 50px rgba(0,0,0,.08)}
   .plan .badge{position:absolute;top:-14px;left:32px;background:var(--amarelo);font-family:var(--mono);font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px}
@@ -158,6 +182,7 @@
 </header>
 
 <section class="hero">
+  <canvas id="codigo3d" class="hero-canvas" aria-hidden="true"></canvas>
   <div class="wrap">
     <pre class="hero-code" aria-hidden="true">GET /api/clientes
 200 OK
@@ -230,7 +255,7 @@
       </div>
       <div class="card reveal">
         <div class="ic">+</div>
-        <h3>Cuidado contínuo</h3>
+        <h3>Manutenção e suporte</h3>
         <p>Site no ar precisa de alguém de olho. Pequenos ajustes, backup, domínio renovado e um humano para chamar quando algo parecer estranho.</p>
         <ul>
           <li>Pequenas alterações mensais</li>
@@ -246,15 +271,38 @@
 <section id="sobre">
   <div class="wrap">
     <div class="sobre">
+      <div class="fotos">
       <div class="foto reveal" id="foto">
         <img src="vinicius.jpg" alt="Vinicius Maia, fundador da Vitrapi" onerror="document.getElementById('foto').classList.add('sem')">
         <div class="ph">&lt;VM/&gt;</div>
       </div>
+      <div class="foto foto2 reveal" id="foto2">
+        <img src="vinicius3.jpg" alt="Vinicius Maia segurando um objeto" onerror="document.getElementById('foto2').classList.add('sem')">
+        <div class="ph">&lt;VM/&gt;</div>
+      </div>
+      </div>
       <div>
         <p class="eyebrow reveal">quem está por trás</p>
         <h2 class="reveal">Oi, eu sou o Vinicius.</h2>
-        <p class="reveal">Sou apaixonado por tecnologia e por ver negócio pequeno crescer. Criei a Vitrapi porque cansei de ver gente boa no que faz ficar invisível na internet, ou pagar caro por site que nem abre direito no celular.</p>
-        <p class="reveal">Aqui você fala direto comigo, do primeiro "oi" até o site no ar. Explico cada coisa em português claro, e se algo não valer a pena para você, eu digo.</p>
+        <p class="reveal">Sou de Cotia, em São Paulo, e vivo de tecnologia no dia a dia. Hoje trabalho como assistente de TI, dando suporte técnico (o famoso help desk) há cerca de 1 ano. Também já trabalhei em um provedor de internet, onde aprendi na prática como a internet chega até a casa e a empresa das pessoas: configuração de rede, servidores, switches e instalação e ativação de Wi-Fi com os aparelhos de fibra óptica (ONU e ONT).</p>
+        <p class="reveal">Não paro de estudar. Fiz vários cursos na área de TI e venho me aprofundando em programação, desenvolvimento web e inteligência artificial. Também tenho conhecimento em nuvem com a AWS, em VPN (conexão protegida entre computadores e redes) e em AWS Lambda (serviço que roda pequenos programas na internet, sem precisar de servidor próprio). Na prática, isso me permite cuidar do seu site e das ligações dele com planilhas e automações, com segurança.</p>
+        <div class="formacao reveal">
+          <h3>formação</h3>
+          <p class="grau">Bacharelado em Ciência da Computação<small>UNINOVE · 2022 a 2025</small></p>
+        </div>
+        <div class="formacao reveal" style="margin-top:20px;padding-top:0;border-top:0">
+          <h3>cursos e certificados</h3>
+          <ul class="certs">
+          <li><b>Endereçamento de Rede e Solução Básica de Problemas</b><span>Cisco Networking Academy · ago. 2026</span></li>
+          <li><b>Fundamentos de Cloud com AWS</b><span>DIO · jun. 2026 · 48h</span></li>
+          <li><b>GitHub Copilot e Azure Serverless na Prática</b><span>DIO · mai. 2026 · 47h</span></li>
+          <li><b>Cibersegurança</b><span>DIO · fev. 2026 · 40h</span></li>
+          <li><b>Formação Scrum Master</b><span>DIO · jan. 2026 · 22h</span></li>
+          <li><b>Desenvolvimento Java &amp; Cloud</b><span>DIO · jan. 2026 · 54h</span></li>
+          <li><b>Machine Learning e GenAI na Prática</b><span>DIO · jan. 2026 · 10h</span></li>
+          <li><b>Fundamentos de Redes para DevOps</b><span>Udemy · mai. 2024 · 7h</span></li>
+          </ul>
+        </div>
         <span class="assin reveal">// Vinicius Maia, fundador</span>
       </div>
     </div>
@@ -265,9 +313,9 @@
   <div class="wrap">
     <p class="eyebrow reveal">planos</p>
     <h2 class="reveal">Preço de gente que também começou pequeno.</h2>
-    <p class="lead reveal">Barato para começar, justo para manter. A proposta final vem depois da nossa conversa.</p>
+    <p class="lead reveal">Barato para começar, justo para manter. A proposta final vem depois da nossa conversa. Clique no plano que combina com você.</p>
     <div class="plans" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
-      <div class="plan hl reveal">
+      <div class="plan hl reveal" tabindex="0">
         <span class="badge">para quem está começando</span>
         <h3>Site por assinatura</h3>
         <div class="price">R$ 120 <small>/ mês</small></div>
@@ -277,11 +325,10 @@
           <li>Domínio e hospedagem inclusos</li>
           <li>Até 3 edições por mês</li>
           <li>Suporte 24h pelo WhatsApp</li>
-          <li>Fidelidade de 12 meses</li>
         </ul>
-        <a href="#contato" class="btn btn-y">Quero esse</a>
+        <a href="#contato" class="btn btn-y plan-cta">Quero esse</a>
       </div>
-      <div class="plan reveal">
+      <div class="plan reveal" tabindex="0">
         <h3>Vitrine</h3>
         <div class="price">R$ 490 <small>pagamento único</small></div>
         <p>Para quem prefere pagar uma vez e ser dono do site.</p>
@@ -291,9 +338,9 @@
           <li>Domínio e hospedagem configurados</li>
           <li>Entrega em até 7 dias</li>
         </ul>
-        <a href="#contato" class="btn btn-ghost">Começar por aqui</a>
+        <a href="#contato" class="btn btn-y plan-cta">Quero esse</a>
       </div>
-      <div class="plan reveal">
+      <div class="plan reveal" tabindex="0">
         <h3>Vitrine + Conexão</h3>
         <div class="price">R$ 990 <small>pagamento único</small></div>
         <p>Para quem quer parar de digitar tudo à mão.</p>
@@ -303,10 +350,10 @@
           <li>1 automação simples inclusa</li>
           <li>Treinamento de 1 hora</li>
         </ul>
-        <a href="#contato" class="btn btn-ghost">Quero esse</a>
+        <a href="#contato" class="btn btn-y plan-cta">Quero esse</a>
       </div>
-      <div class="plan reveal">
-        <h3>Cuidado + API</h3>
+      <div class="plan reveal" tabindex="0">
+        <h3>Manutenção + API</h3>
         <div class="price">R$ 179 <small>/ mês</small></div>
         <p>Para quem já tem site e integração e não pode parar.</p>
         <ul>
@@ -315,10 +362,10 @@
           <li>Correção rápida se algo parar</li>
           <li>Suporte 24h pelo WhatsApp</li>
         </ul>
-        <a href="#contato" class="btn btn-ghost">Falar sobre isso</a>
+        <a href="#contato" class="btn btn-y plan-cta">Quero esse</a>
       </div>
     </div>
-    <p class="reveal" style="margin-top:20px;font-size:14px;color:#777">Edição extra fora do plano: R$ 30. Quem fecha a Vitrine e quer manutenção depois entra no Cuidado + API ou paga edição avulsa.</p>
+    <p class="reveal" style="margin-top:20px;font-size:14px;color:#777">Edição extra fora do plano: R$ 30. Quem fecha a Vitrine e quer manutenção depois entra no Manutenção + API ou paga edição avulsa.</p>
   </div>
 </section>
 
@@ -328,7 +375,7 @@
     <h2 class="reveal">O que todo mundo pergunta antes de fechar.</h2>
     <div style="margin-top:36px;max-width:760px">
       <details class="reveal"><summary>Preciso já ter domínio ou hospedagem?</summary><p>Não. Eu te ajudo a registrar o domínio (o endereço, tipo suaempresa.com.br) no seu nome, e configuro a hospedagem. O custo do domínio é cerca de R$ 40 por ano e fica no seu CPF ou CNPJ, não no meu.</p></details>
-      <details class="reveal"><summary>Eu consigo mexer no site depois sem depender de você?</summary><p>Sim. Entrego a página com um painel simples para trocar textos, fotos e preços, e gravo um vídeo curto ensinando. Para mudanças maiores, existe o plano de cuidado mensal.</p></details>
+      <details class="reveal"><summary>Eu consigo mexer no site depois sem depender de você?</summary><p>Sim. Entrego a página com um painel simples para trocar textos, fotos e preços, e gravo um vídeo curto ensinando. Para mudanças maiores, existe o plano de manutenção mensal.</p></details>
       <details class="reveal"><summary>O que exatamente é uma API? Preciso de uma?</summary><p>Pense na API como um garçom: ela leva o pedido de um sistema para outro e traz a resposta. Se hoje você copia dados de um lugar para outro à mão (do site para a planilha, da planilha para o WhatsApp), provavelmente uma automação simples resolve. Se não, você não precisa, e eu vou te dizer isso.</p></details>
       <details class="reveal"><summary>Em quanto tempo fica pronto?</summary><p>Uma landing page leva de 5 a 7 dias úteis a partir do momento em que recebo seus textos e fotos. Integrações variam, mas a maioria sai em 1 a 2 semanas. O prazo vai escrito na proposta.</p></details>
       <details class="reveal"><summary>Como funciona o pagamento?</summary><p>50% para começar e 50% quando a página estiver no ar e aprovada por você. Aceito Pix, cartão e boleto. Emito nota fiscal.</p></details>
@@ -358,9 +405,11 @@
           <option>Ainda não sei, quero conversar</option>
         </select>
         <textarea name="msg" placeholder="Me conta rapidinho sobre o seu negócio"></textarea>
-        <button type="submit" class="btn btn-dark" style="justify-content:center">Enviar</button>
-        <div class="ok" id="ok">&gt; mensagem enviada. Respondo em até 1 dia útil.</div>
-        <div class="ok" id="erro" style="background:#7a1f1f">&gt; não consegui enviar agora. Me chama direto no <a href="https://wa.me/5511943799108" target="_blank" rel="noopener" style="text-decoration:underline">WhatsApp</a>, por favor.</div>
+        <div class="envio">
+          <button type="button" id="enviaWpp" class="btn btn-dark" style="justify-content:center">Enviar pelo WhatsApp</button>
+          <button type="button" id="enviaEmail" class="btn btn-outline" style="justify-content:center">Enviar por e-mail</button>
+        </div>
+        <div class="ok" id="ok">&gt; Abri o seu programa de e-mail com a mensagem pronta. Se nada abriu, escreva direto para <a href="mailto:vitrapi@hotmail.com" style="text-decoration:underline;color:#FFC933">vitrapi@hotmail.com</a>.</div>
       </form>
     </div>
   </div>
@@ -389,57 +438,146 @@
       card.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-6px) scale(1.02)`;
     });
     card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-    card.addEventListener('click', e => {
-      if (e.target.closest('a')) return;
+    const selecionar = () => {
       document.querySelectorAll('.plan').forEach(c => c.classList.remove('sel'));
       card.classList.add('sel');
+    };
+    card.addEventListener('click', e => {
+      if (e.target.closest('a')) return;
+      selecionar();
+    });
+    card.addEventListener('keydown', e => {
+      if (e.target !== card) return;
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selecionar(); }
     });
   });
 
-  // Formulário: envia a mensagem de verdade para o seu e-mail via Formspree.
-  // PASSO QUE FALTA: crie o formulário em formspree.io, copie o endereço que ele
-  // gera (algo como https://formspree.io/f/abcdwxyz) e cole entre as aspas abaixo.
-  const FORM_ENDPOINT = 'COLE_AQUI_O_ENDERECO_DO_FORMSPREE';
+  // Fundo 3D da abertura: trechos de código (HTML, PHP, Java, Python) vindo em sua direção, sem fim.
+  // É um desenho feito com JavaScript puro (sem biblioteca), então não pesa no carregamento.
+  (function () {
+    const hero = document.querySelector('.hero');
+    const cv = document.getElementById('codigo3d');
+    if (!hero || !cv) return;
+    const ctx = cv.getContext('2d');
+    const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const FONTE = "'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace";
+    const TRECHOS = [
+      '<html>', '<h1>Olá, mundo</h1>', '<div class="vitrine">', '<a href="/whatsapp">', '</body>',
+      '<?php echo "Olá"; ?>', '$pedido = new Pedido();', '<?php $site = true; ?>', 'foreach ($clientes as $c)',
+      'public class Loja {', 'System.out.println("Olá");', 'String nome = "Vitrapi";', 'public static void main()',
+      'def vender(produto):', "print('Olá, mundo')", 'import requests', 'return response.json()',
+      'while (online) { vender(); }', '{ "status": "online" }', 'SELECT * FROM clientes;'
+    ];
+    const CORES = ['#1F1F1F', '#8A8A8A', '#D9A400'];
+    const Z_LONGE = 3, Z_PERTO = 0.35;
+    let W = 0, H = 0, f = 500, xs = 1.7, itens = [];
+    let camX = 0, camY = 0, alvoX = 0, alvoY = 0, visivel = true, ultimo = 0;
+
+    const limitar = (v, a, b) => Math.min(b, Math.max(a, v));
+
+    function novo(z) {
+      const ang = Math.random() * Math.PI * 2;
+      const raio = 0.15 + Math.random() * 1.35;
+      return {
+        x: Math.cos(ang) * raio * xs, y: Math.sin(ang) * raio, z: z,
+        txt: TRECHOS[(Math.random() * TRECHOS.length) | 0],
+        cor: CORES[(Math.random() * CORES.length) | 0],
+        vel: 0.28 + Math.random() * 0.2
+      };
+    }
+
+    function medir() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = hero.clientWidth; H = hero.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      f = Math.min(W, H * 1.6) * 0.5;
+      xs = limitar((W / H) * 0.9, 0.7, 1.7);
+      const qtd = W < 700 ? 34 : 70;
+      itens = [];
+      for (let i = 0; i < qtd; i++) itens.push(novo(Z_PERTO + Math.random() * (Z_LONGE - Z_PERTO)));
+      if (reduzir) desenhar();
+    }
+
+    function desenhar() {
+      ctx.clearRect(0, 0, W, H);
+      const cx = W / 2, cy = H / 2;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      for (const it of itens) {
+        const sx = cx + (it.x - camX) * f / it.z;
+        const sy = cy + (it.y - camY) * f / it.z;
+        const tam = 17 * limitar(f / 560, 0.8, 1.4) / it.z;
+        if (sx < -300 || sx > W + 300 || sy < -50 || sy > H + 50) continue;
+        const entra = limitar((Z_LONGE - it.z) / 0.9, 0, 1);
+        const sai = limitar((it.z - Z_PERTO) / 0.35, 0, 1);
+        const d = Math.hypot((sx - cx) / W * 1.2, (sy - cy) / H * 1.6);
+        const centro = limitar(d / 0.4, 0.22, 1); // some um pouco atrás do título, para não atrapalhar a leitura
+        ctx.globalAlpha = 0.6 * entra * sai * centro;
+        ctx.fillStyle = it.cor;
+        ctx.font = '500 ' + tam.toFixed(1) + 'px ' + FONTE;
+        ctx.fillText(it.txt, sx, sy);
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function quadro(t) {
+      requestAnimationFrame(quadro);
+      if (!visivel) { ultimo = t; return; }
+      const dt = Math.min((t - ultimo) / 1000 || 0, 0.05);
+      ultimo = t;
+      camX += (alvoX - camX) * 0.05;
+      camY += (alvoY - camY) * 0.05;
+      for (let i = 0; i < itens.length; i++) {
+        itens[i].z -= itens[i].vel * dt;
+        if (itens[i].z < Z_PERTO) itens[i] = novo(Z_LONGE);
+      }
+      desenhar();
+    }
+
+    medir();
+    window.addEventListener('resize', medir);
+    if (reduzir) return; // quem pediu menos movimento no aparelho vê só um quadro parado
+    hero.addEventListener('mousemove', e => {
+      alvoX = (e.clientX / window.innerWidth - 0.5) * 0.7;
+      alvoY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+    });
+    new IntersectionObserver(es => { visivel = es[0].isIntersecting; }).observe(hero);
+    requestAnimationFrame(quadro);
+  })();
+
+  // Formulário: o visitante escolhe enviar pelo WhatsApp ou por e-mail.
+  // Nada é guardado em servidor: a mensagem sai direto do aparelho dele.
   const WHATSAPP = '5511943799108';
+  const EMAIL = 'vitrapi@hotmail.com';
 
   const form = document.getElementById('form');
   const ok = document.getElementById('ok');
-  const erro = document.getElementById('erro');
 
-  function abrirWhatsApp(d) {
-    const texto = `Oi Vinicius! Meu nome é ${d.get('nome')}, do negócio ${d.get('negocio')}. Preciso de: ${d.get('tipo')}. ${d.get('msg') || ''}`;
-    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
+  function lerFormulario() {
+    if (!form.reportValidity()) return null; // avisa os campos obrigatórios que faltam
+    const d = new FormData(form);
+    return {
+      nome: d.get('nome'),
+      negocio: d.get('negocio'),
+      tipo: d.get('tipo'),
+      msg: (d.get('msg') || '').trim()
+    };
   }
 
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    erro.style.display = 'none';
-    const dados = new FormData(form);
-    const botao = form.querySelector('button');
+  document.getElementById('enviaWpp').addEventListener('click', () => {
+    const c = lerFormulario();
+    if (!c) return;
+    const texto = `Oi Vinicius! Meu nome é ${c.nome}, do negócio ${c.negocio}. Preciso de: ${c.tipo}. ${c.msg}`.trim();
+    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
+  });
 
-    // Enquanto o Formspree não estiver configurado, o formulário abre o WhatsApp
-    // com a mensagem já preenchida (assim nenhum contato se perde).
-    if (FORM_ENDPOINT.startsWith('COLE_AQUI')) {
-      abrirWhatsApp(dados);
-      return;
-    }
-
-    botao.disabled = true;
-    botao.textContent = 'Enviando...';
-    try {
-      const resp = await fetch(FORM_ENDPOINT, {
-        method: 'POST',
-        body: dados,
-        headers: { 'Accept': 'application/json' }
-      });
-      if (!resp.ok) throw new Error('falha no envio');
-      form.querySelectorAll('input,select,textarea,button').forEach(el => el.style.display = 'none');
-      ok.style.display = 'block';
-    } catch (err) {
-      botao.disabled = false;
-      botao.textContent = 'Enviar';
-      erro.style.display = 'block';
-    }
+  document.getElementById('enviaEmail').addEventListener('click', () => {
+    const c = lerFormulario();
+    if (!c) return;
+    const assunto = `Contato pelo site da Vitrapi - ${c.negocio}`;
+    const corpo = `Olá, Vinicius!\n\nMeu nome é ${c.nome}, do negócio ${c.negocio}.\nPreciso de: ${c.tipo}.\n\n${c.msg}`;
+    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+    ok.style.display = 'block';
   });
 </script>
 </body>
