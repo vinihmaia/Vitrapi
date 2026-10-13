@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagamento · Vitrapi</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--carvao:#1F1F1F;--amarelo:#F5B700;--cinza2:#E0E0E0;--fundo:#F7F7F5;--mono:'JetBrains Mono',monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--fundo);color:var(--carvao);min-height:100vh;display:grid;place-items:center;padding:24px}
+  .card{width:100%;max-width:420px;background:#fff;border:1px solid var(--cinza2);border-radius:20px;padding:32px 28px;text-align:center}
+  .logo{font-family:var(--mono);font-weight:700;font-size:22px}
+  .logo .b{color:#8A8A8A}.logo .a{color:var(--amarelo)}
+  h1{font-size:22px;margin-top:22px}
+  .sub{color:#666;font-size:14px;margin-top:4px}
+  .valor{font-family:var(--mono);font-size:40px;font-weight:700;margin:18px 0}
+  .qr{display:grid;place-items:center;padding:14px;border:1px solid var(--cinza2);border-radius:14px;width:fit-content;margin:0 auto}
+  .dica{font-size:14px;color:#555;margin:18px 0 10px}
+  textarea{width:100%;height:84px;font-family:var(--mono);font-size:11px;padding:10px;border:1px solid var(--cinza2);border-radius:10px;resize:none;color:#555}
+  .btn{display:flex;justify-content:center;width:100%;padding:13px;border-radius:10px;font-weight:600;font-size:15px;border:0;cursor:pointer;margin-top:10px;text-decoration:none;font-family:inherit}
+  .btn-dark{background:var(--carvao);color:#fff}.btn-y{background:var(--amarelo);color:var(--carvao)}
+  .aviso{font-size:13px;color:#666;margin-top:18px;line-height:1.5}
+  .erro{background:#FCEBEB;color:#791F1F;border-radius:10px;padding:14px;font-size:14px}
+</style>
+</head>
+<body>
+<main class="card">
+  <a href="index.html" class="logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></a>
+  <h1>Mensalidade do painel</h1>
+  <p class="sub">Painel de gestão para transporte escolar</p>
+  <div class="valor" id="valor"></div>
+  <div class="qr" id="qr"></div>
+  <p class="dica">Abra o app do seu banco, escolha Pix e leia o QR code. Ou use o Pix copia e cola:</p>
+  <textarea id="copia" readonly></textarea>
+  <button class="btn btn-dark" id="copiar" type="button">Copiar código Pix</button>
+  <p class="aviso">Antes de confirmar, veja se o app mostra <b id="nome-receb"></b> como recebedor. Depois de pagar, envie o comprovante:</p>
+  <a class="btn btn-y" href="https://wa.me/5511943799108?text=Oi%20Vinicius!%20Segue%20o%20comprovante%20da%20mensalidade%20do%20painel." target="_blank" rel="noopener">Enviar comprovante no WhatsApp</a>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  // ===== PREENCHER =====
+    const CHAVE_PIX = 'viniciusmaia_2022@hotmail.com';
+  const RECEBEDOR = 'VINICIUS MAIA';           // como aparece no banco (até 25 letras)
+  const CIDADE = 'COTIA';                      // até 15 letras
+    // Valor e descrição podem vir no link: pagar.html?valor=245.00&ref=Entrada
+  const PARAMS = new URLSearchParams(location.search);
+  const VALOR = /^\d+(\.\d{1,2})?$/.test(PARAMS.get('valor') || '') ? Number(PARAMS.get('valor')).toFixed(2) : '75.00';
+  const REFERENTE = (PARAMS.get('ref') || 'Mensalidade do painel').slice(0, 80);
+
+  // Monta o "Pix copia e cola" no padrão do Banco Central.
+  // Cada informação vira: código de 2 números + tamanho com 2 números + o valor.
+  const semAcento = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+  const campo = (id, v) => id + String(v.length).padStart(2, '0') + v;
+  function crc16(txt) { // "dígito verificador" exigido pelo padrão Pix
+    let crc = 0xFFFF;
+    for (let i = 0; i < txt.length; i++) {
+      crc ^= txt.charCodeAt(i) << 8;
+      for (let j = 0; j < 8; j++) { crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) : (crc << 1); crc &= 0xFFFF; }
+    }
+    return crc.toString(16).toUpperCase().padStart(4, '0');
+  }
+  function codigoPix() {
+    let p = campo('00', '01') +
+      campo('26', campo('00', 'br.gov.bcb.pix') + campo('01', CHAVE_PIX)) +
+      campo('52', '0000') + campo('53', '986') + campo('54', VALOR) + campo('58', 'BR') +
+      campo('59', semAcento(RECEBEDOR).slice(0, 25)) + campo('60', semAcento(CIDADE).slice(0, 15)) +
+      campo('62', campo('05', '***')) + '6304';
+    return p + crc16(p);
+  }
+
+  document.getElementById('valor').textContent = 'R$ ' + VALOR.replace('.', ',');
+    document.querySelector('h1').textContent = REFERENTE;
+  document.querySelector('.sub').textContent = 'Vitrapi · pagamento via Pix';
+  document.getElementById('nome-receb').textContent = RECEBEDOR;
+  if (CHAVE_PIX.includes('COLOQUE')) {
+    document.getElementById('qr').innerHTML = '<p class="erro">Página ainda não configurada: falta a chave Pix.</p>';
+  } else {
+    const pix = codigoPix();
+    document.getElementById('copia').value = pix;
+    new QRCode(document.getElementById('qr'), { text: pix, width: 220, height: 220, correctLevel: QRCode.CorrectLevel.M });
+  }
+  document.getElementById('copiar').addEventListener('click', async () => {
+    const t = document.getElementById('copia');
+    try { await navigator.clipboard.writeText(t.value); } catch (e) { t.select(); document.execCommand('copy'); }
+    document.getElementById('copiar').textContent = 'Código copiado!';
+  });
+</script>
+</body>
+</html>
