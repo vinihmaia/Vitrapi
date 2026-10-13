@@ -82,15 +82,6 @@
   .card li{font-size:14px;color:#444;padding:6px 0 6px 22px;position:relative}
   .card li::before{content:'';position:absolute;left:0;top:13px;width:10px;height:10px;background:var(--amarelo)}
 
-  /* como funciona */
-  .dark{background:var(--carvao);color:#fff}
-  .dark h2{color:#fff}.dark .lead{color:#bbb}
-  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;margin-top:56px;counter-reset:s}
-  .step{position:relative;padding-top:20px;border-top:2px solid #333}
-  .step::before{counter-increment:s;content:'0' counter(s);font-family:var(--mono);color:var(--amarelo);font-size:14px;position:absolute;top:-10px;left:0;background:var(--carvao);padding-right:10px}
-  .step h3{font-size:18px;margin:12px 0 8px}
-  .step p{color:#aaa;font-size:15px}
-
   /* sobre */
   .sobre{display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:start}
   .fotos{display:grid;gap:40px}
@@ -171,12 +162,9 @@
 <header>
   <div class="wrap"><nav>
     <a href="#" class="logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></a>
-    <div class="links">
+      <div class="links">
       <a href="#servicos">Serviços</a>
-      <a href="#projetos">Projetos</a>
-      <a href="#sobre">Sobre</a>
       <a href="#planos">Planos</a>
-      <a href="#faq">Dúvidas</a>
       <a href="#contato">Contratar</a>
     </div>
     <a href="#contato" class="btn btn-y">Pedir orçamento</a>
@@ -334,13 +322,6 @@
     .oferta li{padding:8px 0 8px 26px;position:relative;font-size:15px;border-bottom:1px dashed #3a3a3a;color:#ddd}
     .oferta li::before{content:'✓';position:absolute;left:0;color:var(--amarelo);font-weight:700}
     @media(max-width:820px){.oferta{grid-template-columns:1fr;padding:32px 24px}}
-
-    /* ideias */
-    .ideias{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:32px}
-    .ideia{background:#fff;border:1px solid var(--cinza2);border-radius:14px;padding:22px;transition:transform .2s,border-color .2s}
-    .ideia:hover{transform:translateY(-3px);border-color:var(--amarelo)}
-    .ideia h4{font-size:16px;margin-bottom:6px}
-    .ideia p{color:#555;font-size:14px}
   </style>
   <div class="wrap">
     <p class="eyebrow reveal">projetos</p>
@@ -407,20 +388,6 @@
         </ul>
         <a href="#contato" data-servico="van" class="btn btn-y">Contratar o painel →</a>
       </div>
-    </div>
-
-    <h3 class="reveal" style="font-size:24px;letter-spacing:-.5px;margin-top:80px">O que dá para fazer no seu negócio</h3>
-    <p class="lead reveal" style="margin-top:8px">A mesma ideia serve para muitos tipos de negócio. Alguns exemplos:</p>
-    <div class="ideias">
-      <div class="ideia reveal"><h4>Contrato com assinatura online</h4><p>Academias, escolinhas, personal trainer, aluguel de espaço para festas.</p></div>
-      <div class="ideia reveal"><h4>Mensalidades e recibos</h4><p>Cursos, escolas de dança e natação, clubes, aulas particulares.</p></div>
-      <div class="ideia reveal"><h4>Lembretes de vencimento pelo WhatsApp</h4><p>Qualquer negócio que cobra todo mês e perde tempo lembrando cliente por cliente.</p></div>
-      <div class="ideia reveal"><h4>Termos e autorizações</h4><p>Salão (termo de procedimento), pet shop (autorização de banho e tosa), clínicas e consultórios.</p></div>
-      <div class="ideia reveal"><h4>Cadastro de clientes com painel próprio</h4><p>Lista, busca e histórico em um só lugar, sem planilha solta nem caderno.</p></div>
-      <div class="ideia reveal"><h4>Recibo e extrato para o cliente</h4><p>Documento pronto em PDF, enviado em um clique, sempre que o cliente pedir.</p></div>
-    </div>
-    <div class="reveal" style="margin-top:32px">
-      <a href="#contato" class="btn btn-dark">Quero algo assim no meu negócio →</a>
     </div>
   </div>
 </section>
@@ -517,7 +484,7 @@
           <li>Até 3 edições por mês</li>
           <li>Manutenção da automação</li>
           <li>Correção rápida se algo parar</li>
-          <li>Suporte 24h pelo WhatsApp</li>
+          <li>Suporte pelo WhatsApp em até 1 dia útil</li>
         </ul>
         <a href="#contato" data-servico="manutencao" class="btn btn-y plan-cta">Quero esse</a>
       </div>
@@ -535,18 +502,13 @@
       <details class="reveal"><summary>Eu consigo mexer no site depois sem depender de você?</summary><p>Sim. Entrego a página com um painel simples para trocar textos, fotos e preços, e gravo um vídeo curto ensinando. Para mudanças maiores, existe o plano de manutenção mensal.</p></details>
       <details class="reveal"><summary>O que exatamente é uma API? Preciso de uma?</summary><p>Pense na API como um garçom: ela leva o pedido de um sistema para outro e traz a resposta. Se hoje você copia dados de um lugar para outro à mão (do site para a planilha, da planilha para o WhatsApp), provavelmente uma automação simples resolve. Se não, você não precisa, e eu vou te dizer isso.</p></details>
       <details class="reveal"><summary>Em quanto tempo fica pronto?</summary><p>Uma landing page leva de 5 a 7 dias úteis a partir do momento em que recebo seus textos e fotos. Integrações variam, mas a maioria sai em 1 a 2 semanas. O prazo vai escrito na proposta.</p></details>
-            <details class="reveal"><summary>Como funciona o pagamento?</summary><p>Via Pix. Em projetos, 50% para começar e 50% quando estiver no ar e aprovado por você. Em assinaturas, uma vez por mês. O contrato é assinado online, pelo celular, e você recebe uma cópia em PDF.</p></details>ovada por você. Aceito Pix, cartão e boleto. Emito nota fiscal.</p></details>
+      <details class="reveal"><summary>Como funciona o pagamento?</summary><p>Via Pix. Em projetos, 50% para começar e 50% quando estiver no ar e aprovado por você. Em assinaturas, uma vez por mês. O contrato é assinado online, pelo celular, e você recebe uma cópia em PDF.</p></details>
     </div>
   </div>
 </section>
 
 <section id="contato">
   <style>
-    .passos4{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:28px 0 40px}
-    .passo{background:#fff;border:1px solid var(--cinza2);border-radius:14px;padding:20px}
-    .passo b{font-family:var(--mono);color:#8a6a00;font-size:13px}
-    .passo h4{font-size:16px;margin:6px 0 4px}
-    .passo p{color:#555;font-size:14px}
     .contato fieldset{border:0;padding:0;margin:0;display:grid;gap:12px;min-width:0}
     .contato fieldset[hidden]{display:none}
     .duas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -558,15 +520,9 @@
   </style>
   <div class="wrap">
     <p class="eyebrow reveal">como contratar</p>
-    <h2 class="reveal">Do pedido ao sistema no ar, em 4 passos.</h2>
-    <div class="passos4">
-      <div class="passo reveal"><b>01</b><h4>Pedido</h4><p>Você conta o que precisa no formulário aqui embaixo.</p></div>
-      <div class="passo reveal"><b>02</b><h4>Proposta</h4><p>Respondo em até 1 dia útil com escopo, prazo e valor. O painel da van tem preço fixo: R$ 75 por mês.</p></div>
-      <div class="passo reveal"><b>03</b><h4>Contrato</h4><p>Você assina online, pelo celular, e recebe o contrato em PDF.</p></div>
-      <div class="passo reveal"><b>04</b><h4>Pagamento</h4><p>Via Pix. Em projetos, 50% para começar e 50% na entrega. Em assinaturas, uma vez por mês.</p></div>
-    </div>
+    <h2 class="reveal">Do pedido ao sistema no ar.</h2>
 
-    <div class="contato reveal">
+    <div class="contato reveal" style="margin-top:32px">
       <div>
         <img src="vinicius2.jpg" alt="Vinicius Maia" onerror="this.style.display='none'" style="width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:center top;border:4px solid #1F1F1F;margin-bottom:20px;display:block">
         <p class="eyebrow" style="color:#5a4300">contato</p>
@@ -617,7 +573,8 @@
         <div class="envio">
           <button type="button" id="pedido-wpp" class="btn btn-dark" style="justify-content:center">Enviar pelo WhatsApp</button>
           <button type="button" id="pedido-email" class="btn btn-outline" style="justify-content:center">Enviar por e-mail</button>
-        </div>        <p style="font-size:12.5px;color:#5a4300;margin:0">Seus dados são usados só para responder o seu pedido. Veja a <a href="privacidade.html" style="text-decoration:underline;font-weight:600">política de privacidade</a>.</p>
+        </div>
+        <p style="font-size:12.5px;color:#5a4300;margin:0">Seus dados são usados só para responder o seu pedido. Veja a <a href="privacidade.html" style="text-decoration:underline;font-weight:600">política de privacidade</a>.</p>
         <div class="ok" id="pedido-ok">&gt; Abri o seu programa de e-mail com a mensagem pronta. Se nada abriu, escreva direto para <a href="mailto:vitrapi@hotmail.com" style="text-decoration:underline;color:#FFC933">vitrapi@hotmail.com</a>.</div>
       </form>
     </div>
@@ -691,7 +648,7 @@
 <div class="wrap">
   <footer>
     <span class="logo" style="font-size:18px"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></span>
-    <a href="https://wa.me/5511943799108" target="_blank" rel="noopener" style="color:var(--carvao);font-weight:600;border-bottom:2px solid var(--amarelo)">(11) 94379-9108</a> · <a href="privacidade.html" style="color:var(--carvao);font-weight:600;border-bottom:2px solid var(--amarelo)">Privacidade</a></span>
+    <span>Vinicius Maia · <a href="https://www.linkedin.com/in/vini-maia" target="_blank" rel="noopener" style="color:var(--carvao);font-weight:600;border-bottom:2px solid var(--amarelo)">LinkedIn</a> · <a href="https://github.com/vinihmaia" target="_blank" rel="noopener" style="color:var(--carvao);font-weight:600;border-bottom:2px solid var(--amarelo)">GitHub</a> · <a href="https://www.instagram.com/vitrapi_/" target="_blank" rel="noopener" style="color:var(--carvao);font-weight:600;border-bottom:2px solid var(--amarelo)">Instagram</a> · <a href="mailto:vitrapi@hotmail.com" style="color:var(--carvao);font-weight:600;border-bottom:2px solid var(--amarelo)">vitrapi@hotmail.com</a> · <a href="https://wa.me/5511943799108" target="_blank" rel="noopener" style="color:var(--carvao);font-weight:600;border-bottom:2px solid var(--amarelo)">(11) 94379-9108</a> · <a href="privacidade.html" style="color:var(--carvao);font-weight:600;border-bottom:2px solid var(--amarelo)">Privacidade</a></span>
   </footer>
 </div>
 
