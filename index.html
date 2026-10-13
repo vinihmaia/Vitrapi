@@ -637,7 +637,7 @@
       document.getElementById('pedido-email').addEventListener('click', () => {
         const d = ler(); if (!d) return;
         const assunto = 'Pedido pelo site da Vitrapi - ' + (d.van || d.negocio || NOMES[d.servico]);
-        location.href = 'mailto:vitrapi@hotmail.com?subject=' + encodeURIComponent(assunto) + '&body=' + encodeURIComponent(texto(d));
+        location.href = 'mailto:contato@vitrapi.com?subject=' + encodeURIComponent(assunto) + '&body=' + encodeURIComponent(texto(d));
         document.getElementById('pedido-ok').style.display = 'block';
       });
       trocar();
