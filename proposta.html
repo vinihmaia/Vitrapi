@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de proposta · Vitrapi</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--carvao:#1F1F1F;--amarelo:#F5B700;--cinza2:#E0E0E0;--fundo:#F7F7F5;--mono:'JetBrains Mono',monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  [hidden]{display:none!important}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--fundo);color:var(--carvao);line-height:1.6;padding:32px 18px 80px}
+  .wrap{max-width:860px;margin:0 auto}
+  .logo{font-family:var(--mono);font-weight:700;font-size:22px;text-decoration:none;color:inherit}
+  .logo .b{color:#8A8A8A}.logo .a{color:var(--amarelo)}
+  h1{font-size:clamp(26px,5vw,34px);letter-spacing:-.5px;line-height:1.15;margin-top:24px}
+  .versao{font-family:var(--mono);font-size:13px;color:#777;margin-top:6px}
+  .etapa{background:#fff;border:1px solid var(--cinza2);border-radius:18px;padding:26px;margin-top:22px}
+  .etapa h2{font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .campos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  .campos .full{grid-column:1/-1}
+  label.c{font-size:13px;font-weight:600;color:#555;display:grid;gap:6px}
+  input,select,textarea{width:100%;padding:12px 14px;border:2px solid var(--cinza2);border-radius:10px;font:inherit;font-size:15px;background:#fff;color:var(--carvao)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--carvao)}
+  input[readonly]{background:#FBFAF7;color:#555}
+  textarea{min-height:90px;resize:vertical}
+  .resumo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+  .resumo div{background:#FBFAF7;border:1px solid var(--cinza2);border-radius:12px;padding:12px 14px;font-size:15px;font-weight:600}
+  .resumo small{display:block;font-size:12px;color:#777;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+  .acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .btn{display:inline-flex;justify-content:center;align-items:center;padding:13px 20px;border-radius:10px;font-weight:600;font-size:15px;border:2px solid transparent;cursor:pointer;font-family:inherit;text-decoration:none}
+  .btn-dark{background:var(--carvao);color:#fff}.btn-y{background:var(--amarelo);color:var(--carvao)}
+  .btn-o{background:#fff;border-color:var(--carvao);color:var(--carvao)}
+  .btn-sm{padding:8px 14px;font-size:13px}
+  .erro{color:#A32D2D;font-size:14px;min-height:22px;margin-top:10px}
+  .ok{background:#E1F5EE;color:#085041;border-radius:12px;padding:14px 16px;margin-top:14px;font-size:14px}
+  .saida{display:grid;gap:8px;margin-top:14px}
+  .saida input,.saida textarea{font-family:var(--mono);font-size:12px;color:#555;background:#FBFAF7}
+  .lista{margin-top:14px;display:grid;gap:8px}
+  .item{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--cinza2);border-radius:12px;padding:12px 14px;font-size:14px}
+  .item small{display:block;color:#777;font-family:var(--mono);font-size:12px}
+  .vazio{color:#777;font-size:14px;margin-top:12px}
+  @media(max-width:600px){.campos,.resumo{grid-template-columns:1fr}.etapa{padding:20px}.item{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></a>
+  <h1>Gerador de proposta</h1>
+  <p class="versao">uso interno · nada vai para servidor; as propostas ficam salvas só neste navegador</p>
+
+  <section class="etapa">
+    <h2>Dados da proposta <button class="btn btn-o btn-sm" type="button" id="novo">Nova proposta</button></h2>
+    <form class="campos" id="f" novalidate>
+      <label class="c">Número<input id="numero" name="numero" readonly></label>
+      <label class="c">Válida por (dias)<input id="validade" name="validade" type="number" min="1" value="10"></label>
+      <label class="c full">Cliente (nome ou razão social)<input id="cliente" name="cliente" required autocomplete="off"></label>
+      <label class="c">Negócio<input id="negocio" name="negocio" placeholder="Padaria do Zé"></label>
+      <label class="c">WhatsApp do cliente<input id="tel" name="tel" type="tel" placeholder="(11) 90000-0000"></label>
+      <label class="c full">E-mail do cliente<input id="email" name="email" type="email"></label>
+      <label class="c">Serviço<select id="servico" name="servico"></select></label>
+      <label class="c">Forma de pagamento<select id="forma" name="forma"><option value="unico">Projeto: 50% na assinatura e 50% na entrega</option><option value="mensal">Assinatura mensal</option></select></label>
+      <label class="c">Valor total ou mensal (R$)<input id="valor" name="valor" type="number" min="1" step="0.01" placeholder="490"></label>
+      <label class="c">Prazo de entrega (dias úteis)<input id="prazo" name="prazo" type="number" min="1" placeholder="7"></label>
+      <label class="c full">O que será entregue (um item por linha)<textarea id="escopo" name="escopo" required placeholder="Landing page de 1 página, pensada para celular&#10;Botão de WhatsApp e mapa&#10;Domínio e hospedagem configurados no seu nome"></textarea></label>
+      <label class="c full">O que não está incluso (opcional, um por linha)<textarea id="fora" name="fora" placeholder="Textos e fotos (você envia)&#10;Loja virtual com carrinho"></textarea></label>
+      <label class="c full">Observações (opcional)<textarea id="obs" name="obs" placeholder="Desconto de lançamento válido para fechamento até o dia 30."></textarea></label>
+    </form>
+    <div class="resumo" id="resumo"></div>
+    <p class="erro" id="erro"></p>
+    <div class="acoes">
+      <button class="btn btn-dark" type="button" id="gerar">Gerar PDF e links</button>
+      <button class="btn btn-o" type="button" id="rascunho">Salvar rascunho</button>
+    </div>
+  </section>
+
+  <section class="etapa" id="saida" hidden>
+    <h2>Pronto para enviar</h2>
+    <div class="ok">O PDF foi baixado. Mande o PDF com a mensagem abaixo. O link do contrato você envia só depois do "aceito".</div>
+    <div class="saida">
+      <label class="c">Mensagem para o WhatsApp<textarea id="s-msg" readonly style="min-height:130px"></textarea></label>
+      <div class="acoes"><button class="btn btn-o btn-sm" type="button" data-copiar="s-msg">Copiar mensagem</button><a class="btn btn-y btn-sm" id="s-wpp" target="_blank" rel="noopener" hidden>Abrir WhatsApp do cliente</a><button class="btn btn-o btn-sm" type="button" id="s-pdf">Baixar PDF de novo</button></div>
+      <label class="c" style="margin-top:8px">Link do contrato<input id="s-contrato" readonly></label>
+      <div class="acoes"><button class="btn btn-o btn-sm" type="button" data-copiar="s-contrato">Copiar link do contrato</button><a class="btn btn-o btn-sm" id="s-abrir" target="_blank" rel="noopener">Abrir para conferir</a></div>
+      <label class="c" style="margin-top:8px"><span id="s-rotulo">Link de pagamento</span><input id="s-pagar" readonly></label>
+      <div class="acoes"><button class="btn btn-o btn-sm" type="button" data-copiar="s-pagar">Copiar link de pagamento</button></div>
+    </div>
+  </section>
+
+  <section class="etapa">
+    <h2>Propostas salvas neste navegador</h2>
+    <div class="lista" id="lista"></div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function () {
+  // ===== DADOS DA VITRAPI (conferir) =====
+  const VITRAPI = { nome: 'Vinicius Maia', fantasia: 'Vitrapi', cidade: 'Cotia/SP', email: 'contato@vitrapi.com', whats: '(11) 94379-9108', site: 'www.vitrapi.com' };
+  const SERVICOS = { van: 'Painel para transporte escolar', landing: 'Landing page', api: 'Integração / API', chamados: 'Sistema de chamados', portaria: 'Sistema de portaria', 'sob-medida': 'Sistema sob medida', manutencao: 'Manutenção de site ou sistema' };
+  const ESCOPO_VAN = ['Painel online com o nome e as cores da sua van', 'Contratos gerados do seu modelo e assinados pelo celular', 'Controle das 12 mensalidades, em dinheiro ou Pix, com recibo', 'Lembretes de vencimento e cobrança pelo WhatsApp', 'Treinamento inicial de 1 hora e suporte direto comigo'].join('\n');
+  const GUARDA = 'vitrapi_propostas', SEQ = 'vitrapi_proposta_seq';
+
+  const $ = id => document.getElementById(id);
+  const brl = n => Number(n).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const data = d => new Date(d).toLocaleDateString('pt-BR');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const linhas = t => (t || '').split('\n').map(s => s.trim().replace(/^[-•*]\s*/, '')).filter(Boolean);
+  const primeiro = n => (n || '').trim().split(/\s+/)[0];
+  const form = $('f');
+
+  $('servico').innerHTML = Object.entries(SERVICOS).map(([k, n]) => '<option value="' + k + '">' + esc(n) + '</option>').join('');
+
+  // ---------- numeração (sequencial, guardada neste navegador) ----------
+  function proximoNumero() {
+    const n = (parseInt(localStorage.getItem(SEQ), 10) || 0) + 1, d = new Date();
+    return d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(n).padStart(3, '0');
+  }
+
+  // ---------- formulário ----------
+  function ajustar() {
+    const van = $('servico').value === 'van';
+    $('forma').disabled = van; $('valor').readOnly = van;
+    if (van) { $('forma').value = 'mensal'; $('valor').value = 75; if (!$('prazo').value) $('prazo').value = 10; if (!$('escopo').value.trim()) $('escopo').value = ESCOPO_VAN; }
+    resumo();
+  }
+  function resumo() {
+    const v = Number($('valor').value) || 0, mensal = $('forma').value === 'mensal', dias = parseInt($('validade').value, 10) || 10;
+    const ate = new Date(Date.now() + dias * 864e5);
+    $('resumo').innerHTML = [
+      ['Investimento', v ? brl(v) + (mensal ? ' / mês' : ' no total') : '—'],
+      [mensal ? '1ª mensalidade' : 'Entrada (50%)', v ? brl(mensal ? v : Math.round(v * 50) / 100) : '—'],
+      ['Válida até', data(ate)]
+    ].map(([k, x]) => '<div><small>' + k + '</small>' + esc(x) + '</div>').join('');
+  }
+  function novo() {
+    form.reset(); $('numero').value = proximoNumero(); $('validade').value = 10; $('servico').value = 'landing';
+    $('saida').hidden = true; $('erro').textContent = ''; ajustar();
+  }
+  $('servico').addEventListener('change', ajustar);
+  form.addEventListener('input', resumo);
+  $('novo').addEventListener('click', novo);
+
+  function ler(exigir) {
+    const e = $('erro'); e.textContent = '';
+    const d = Object.fromEntries(new FormData(form));
+    d.servico = $('servico').value; d.forma = $('forma').value;          // campos desligados não vêm no FormData
+    d.valor = Math.round(Number($('valor').value) * 100) / 100;
+    d.prazo = parseInt(d.prazo, 10) || 0; d.validade = parseInt(d.validade, 10) || 10;
+    d.itens = linhas(d.escopo); d.fora = linhas(d.fora); d.obs = (d.obs || '').trim();
+    if (!d.cliente.trim()) { e.textContent = 'Informe o nome do cliente.'; return null; }
+    if (exigir) {
+      if (!(d.valor > 0)) { e.textContent = 'Informe o valor.'; return null; }
+      if (!d.itens.length) { e.textContent = 'Descreva pelo menos um item do que será entregue.'; return null; }
+    }
+    d.emitida = new Date().toISOString();
+    d.ate = new Date(Date.now() + d.validade * 864e5).toISOString();
+    d.entrada = d.forma === 'unico' ? Math.round(d.valor * 50) / 100 : d.valor;
+    return d;
+  }
+
+  // ---------- links de contrato e pagamento (mesma lógica do contrato.html?gerar) ----------
+  function links(d) {
+    const c = new URL('contrato.html', location.href);
+    if (d.servico === 'van') c.searchParams.set('servico', 'van');
+    else {
+      c.searchParams.set('servico', d.servico); c.searchParams.set('valor', d.valor.toFixed(2)); c.searchParams.set('forma', d.forma);
+      if (d.prazo > 0) c.searchParams.set('prazo', d.prazo);
+      c.searchParams.set('escopo', d.itens.join('; '));
+    }
+    const ref = (d.forma === 'unico' ? 'Entrada (50%) · ' : 'Mensalidade · ') + SERVICOS[d.servico];
+    const p = new URL('pagar.html', location.href); p.searchParams.set('valor', d.entrada.toFixed(2)); p.searchParams.set('ref', ref);
+    return { contrato: c.href, pagar: p.href, ref };
+  }
+  function mensagem(d) {
+    return ['Oi, ' + primeiro(d.cliente) + '! Segue a proposta ' + d.numero + ' da Vitrapi para ' + SERVICOS[d.servico] + (d.negocio ? ' do ' + d.negocio : '') + '.', '',
+      'Investimento: ' + (d.forma === 'unico' ? brl(d.valor) + ' (50% para começar e 50% na entrega)' : brl(d.valor) + ' por mês, sem fidelidade'),
+      d.prazo > 0 ? 'Prazo: até ' + d.prazo + ' dias úteis' : 'Prazo: combinado depois do aceite',
+      'Válida até ' + data(d.ate) + '.', '',
+      'Os detalhes estão no PDF. Se topar, me responde "aceito" que eu mando o link do contrato para assinar pelo celular. Qualquer dúvida, é só chamar!'].join('\n');
+  }
+
+  // ---------- PDF ----------
+  let docPDF = null, nomeArquivo = '';
+  function gerarPDF(d) {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: 'mm', format: 'a4' });
+    const M = 20, LARG = 170, BAIXO = 272;
+    let y = 0;
+    const nova = () => { pdf.addPage(); y = 24; };
+    const escrever = (txt, tam, negrito, alt, cinza) => {
+      pdf.setFont('helvetica', negrito ? 'bold' : 'normal'); pdf.setFontSize(tam); pdf.setTextColor(cinza || 31);
+      for (const l of pdf.splitTextToSize(txt, LARG)) { if (y > BAIXO) nova(); pdf.text(l, M, y); y += alt; }
+      pdf.setTextColor(31);
+    };
+    const titulo = t => { if (y > BAIXO - 14) nova(); y += 6; pdf.setFillColor(245, 183, 0); pdf.rect(M, y - 3.6, 2.2, 4.8, 'F'); pdf.setFont('helvetica', 'bold'); pdf.setFontSize(12); pdf.setTextColor(31); pdf.text(t.toUpperCase(), M + 5, y); y += 7; };
+    const paragrafo = t => { escrever(t, 10.5, false, 5.2); y += 1.5; };
+    const itens = arr => { arr.forEach(i => {
+      pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10.5); pdf.setTextColor(31);
+      pdf.splitTextToSize(i, LARG - 6).forEach((l, k) => { if (y > BAIXO) nova(); if (k === 0) { pdf.setFillColor(245, 183, 0); pdf.rect(M + 0.5, y - 2.6, 2.4, 2.4, 'F'); } pdf.text(l, M + 6, y); y += 5.2; });
+      y += 0.6;
+    }); y += 1; };
+
+    // faixa escura no topo com a marca
+    pdf.setFillColor(31, 31, 31); pdf.rect(0, 0, 210, 30, 'F');
+    pdf.setFont('courier', 'bold'); pdf.setFontSize(18);
+    let x = M;
+    [['<vitr', [255, 255, 255]], ['api', [245, 183, 0]], ['/>', [255, 255, 255]]].forEach(([t, c]) => { pdf.setTextColor(...c); pdf.text(t, x, 19); x += pdf.getTextWidth(t); });
+    pdf.setFont('helvetica', 'bold'); pdf.setFontSize(10); pdf.setTextColor(255); pdf.text('PROPOSTA COMERCIAL', 190, 14, { align: 'right' });
+    pdf.setFont('helvetica', 'normal'); pdf.setFontSize(9); pdf.setTextColor(200);
+    pdf.text('Nº ' + d.numero + '  ·  ' + data(d.emitida) + '  ·  válida até ' + data(d.ate), 190, 20, { align: 'right' });
+
+    y = 44;
+    escrever('Para: ' + d.cliente + (d.negocio ? ' · ' + d.negocio : ''), 11, true, 5.5);
+    const contato = [d.tel, d.email].filter(Boolean).join('  ·  '); if (contato) escrever(contato, 9.5, false, 5, 110);
+    y += 4;
+    pdf.setFont('helvetica', 'bold'); pdf.setFontSize(20); pdf.setTextColor(31);
+    for (const l of pdf.splitTextToSize(SERVICOS[d.servico], LARG)) { pdf.text(l, M, y); y += 9; }
+    y += 2;
+    paragrafo('Oi, ' + primeiro(d.cliente) + '! Obrigado pela conversa. Abaixo está o que eu entendi do que você precisa, o que vou entregar, quanto custa e como funciona. Se algo estiver diferente do combinado, é só me avisar que eu ajusto.');
+
+    titulo('O que será entregue'); itens(d.itens);
+    if (d.fora.length) { titulo('O que não está incluso'); itens(d.fora); paragrafo('Esses itens podem ser orçados à parte, se você quiser.'); }
+
+    titulo('Investimento');
+    if (d.forma === 'unico') {
+      escrever(brl(d.valor) + '  (pagamento único)', 15, true, 8);
+      itens(['50% (' + brl(d.entrada) + ') na assinatura do contrato, para começar', '50% (' + brl(d.valor - d.entrada) + ') na entrega, depois de você aprovar', 'Pagamento via Pix']);
+    } else {
+      escrever(brl(d.valor) + ' por mês', 15, true, 8);
+      itens(['Cobrado todo dia 10, via Pix', 'Sem fidelidade: para cancelar, basta avisar com 30 dias', 'Reajuste anual pelo IPCA']);
+    }
+
+    titulo('Prazo');
+    paragrafo(d.prazo > 0
+      ? 'Até ' + d.prazo + ' dias úteis, contados ' + (d.forma === 'unico' ? 'do pagamento inicial e ' : '') + 'do recebimento dos textos, fotos e acessos necessários. O prazo vai escrito no contrato.'
+      : 'Combinado por escrito depois do aceite, conforme o volume de materiais e acessos.');
+
+    titulo('Garantia e suporte');
+    paragrafo(d.forma === 'unico'
+      ? 'Por 30 dias após a aprovação, corrijo sem custo qualquer defeito de funcionamento no que foi entregue. Depois disso, você pode pedir ajustes avulsos ou contratar o plano de manutenção.'
+      : 'Suporte pelo WhatsApp em dias úteis, com primeira resposta em até 1 dia útil. Problemas que impeçam o uso são tratados com prioridade.');
+
+    if (d.obs) { titulo('Observações'); paragrafo(d.obs); }
+
+    titulo('Próximos passos');
+    itens(['Me responda "aceito" no WhatsApp', 'Eu envio o link do contrato, que você assina pelo celular em 2 minutos',
+      d.forma === 'unico' ? 'Você paga a entrada pelo Pix' : 'Você paga a primeira mensalidade quando o acesso for liberado',
+      'Eu começo no dia útil seguinte e te mantenho informado pelo WhatsApp']);
+    y += 2;
+    paragrafo('Esta proposta vale até ' + data(d.ate) + '. Depois disso, valores e prazos podem ser revistos.');
+
+    const total = pdf.getNumberOfPages();
+    for (let i = 1; i <= total; i++) {
+      pdf.setPage(i); pdf.setFont('helvetica', 'normal'); pdf.setFontSize(8); pdf.setTextColor(120);
+      pdf.text(VITRAPI.fantasia + ' · ' + VITRAPI.nome + ' · ' + VITRAPI.cidade + ' · ' + VITRAPI.whats + ' · ' + VITRAPI.email + ' · ' + VITRAPI.site, M, 288);
+      pdf.text('Proposta ' + d.numero + ' · página ' + i + ' de ' + total, 190, 288, { align: 'right' });
+    }
+    const base = (d.negocio || d.cliente).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').toLowerCase();
+    nomeArquivo = 'proposta-vitrapi-' + d.numero + '-' + (base || 'cliente') + '.pdf';
+    docPDF = pdf; pdf.save(nomeArquivo);
+  }
+
+  // ---------- propostas salvas ----------
+  const carregar = () => { try { return JSON.parse(localStorage.getItem(GUARDA)) || []; } catch (e) { return []; } };
+  function salvar(d, status) {
+    const l = carregar().filter(x => x.numero !== d.numero);
+    d.status = status; l.unshift(d);
+    localStorage.setItem(GUARDA, JSON.stringify(l.slice(0, 100)));
+    const n = parseInt(d.numero.split('-')[1], 10);
+    if (n > (parseInt(localStorage.getItem(SEQ), 10) || 0)) localStorage.setItem(SEQ, n);
+    listar();
+  }
+  function listar() {
+    const l = carregar(), el = $('lista');
+    if (!l.length) { el.innerHTML = '<p class="vazio">Nenhuma proposta salva ainda.</p>'; return; }
+    el.innerHTML = l.map((d, i) => '<div class="item"><div><b>' + esc(d.cliente) + '</b>' + (d.negocio ? ' · ' + esc(d.negocio) : '') +
+      '<small>' + esc(d.numero) + ' · ' + esc(SERVICOS[d.servico] || '') + ' · ' + (d.valor ? brl(d.valor) + (d.forma === 'mensal' ? '/mês' : '') : 'sem valor') + ' · ' + data(d.emitida) + ' · ' + esc(d.status) + '</small></div>' +
+      '<div class="acoes" style="margin:0"><button class="btn btn-o btn-sm" type="button" data-abrir="' + i + '">Abrir</button><button class="btn btn-o btn-sm" type="button" data-apagar="' + i + '">Apagar</button></div></div>').join('');
+    el.querySelectorAll('[data-abrir]').forEach(b => b.addEventListener('click', () => abrir(l[b.dataset.abrir])));
+    el.querySelectorAll('[data-apagar]').forEach(b => b.addEventListener('click', () => {
+      if (!confirm('Apagar a proposta ' + l[b.dataset.apagar].numero + '?')) return;
+      l.splice(b.dataset.apagar, 1); localStorage.setItem(GUARDA, JSON.stringify(l)); listar();
+    }));
+  }
+  function abrir(d) {
+    novo();
+    ['numero', 'cliente', 'negocio', 'tel', 'email', 'servico', 'forma', 'valor', 'prazo', 'validade', 'obs'].forEach(k => { if (d[k] !== undefined) $(k).value = d[k]; });
+    $('escopo').value = (d.itens || []).join('\n'); $('fora').value = (d.fora || []).join('\n');
+    ajustar(); window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ---------- botões ----------
+  $('rascunho').addEventListener('click', () => { const d = ler(false); if (!d) return; salvar(d, 'rascunho'); $('erro').style.color = '#085041'; $('erro').textContent = 'Rascunho salvo.'; setTimeout(() => { $('erro').textContent = ''; $('erro').style.color = ''; }, 2000); });
+  $('gerar').addEventListener('click', () => {
+    const d = ler(true); if (!d) return;
+    if (!window.jspdf) { $('erro').textContent = 'Não foi possível carregar o gerador de PDF. Confira a internet e recarregue a página.'; return; }
+    try { gerarPDF(d); } catch (e) { $('erro').textContent = 'Algo deu errado ao gerar o PDF. Tente de novo.'; return; }
+    salvar(d, 'enviada');
+    const k = links(d);
+    $('s-msg').value = mensagem(d);
+    const tel = (d.tel || '').replace(/\D/g, '');
+    $('s-wpp').hidden = !tel;
+    if (tel) $('s-wpp').href = 'https://wa.me/' + (tel.startsWith('55') ? tel : '55' + tel) + '?text=' + encodeURIComponent(mensagem(d));
+    $('s-contrato').value = k.contrato; $('s-abrir').href = k.contrato;
+    $('s-pagar').value = k.pagar; $('s-rotulo').textContent = 'Link de pagamento · ' + k.ref + ' · ' + brl(d.entrada);
+    $('saida').hidden = false; $('saida').scrollIntoView({ behavior: 'smooth' });
+  });
+  $('s-pdf').addEventListener('click', () => { if (docPDF) docPDF.save(nomeArquivo); });
+  document.querySelectorAll('[data-copiar]').forEach(b => b.addEventListener('click', async () => {
+    const i = $(b.dataset.copiar); try { await navigator.clipboard.writeText(i.value); } catch (e) { i.select(); document.execCommand('copy'); }
+    const t = b.textContent; b.textContent = 'Copiado!'; setTimeout(() => { b.textContent = t; }, 1500);
+  }));
+
+  novo(); listar();
+})();
+</script>
+</body>
+</html>
