@@ -30,6 +30,7 @@
   .resumo small{display:block;font-size:12px;color:#777;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
   .acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
   .btn{display:inline-flex;justify-content:center;align-items:center;padding:13px 20px;border-radius:10px;font-weight:600;font-size:15px;border:2px solid transparent;cursor:pointer;font-family:inherit;text-decoration:none}
+  .btn:disabled{opacity:.55;cursor:wait}
   .btn-dark{background:var(--carvao);color:#fff}.btn-y{background:var(--amarelo);color:var(--carvao)}
   .btn-o{background:#fff;border-color:var(--carvao);color:var(--carvao)}
   .btn-sm{padding:8px 14px;font-size:13px}
@@ -161,7 +162,7 @@
     return d;
   }
 
-  // ---------- links de contrato e pagamento (mesma lógica do contrato.html?gerar) ----------
+  // ---------- links de contrato e pagamento ----------
   function links(d) {
     const c = new URL('contrato.html', location.href);
     if (d.servico === 'van') c.searchParams.set('servico', 'van');
@@ -174,6 +175,33 @@
     const p = new URL('pagar.html', location.href); p.searchParams.set('valor', d.entrada.toFixed(2)); p.searchParams.set('ref', ref);
     return { contrato: c.href, pagar: p.href, ref };
   }
+
+  // ---------- carimbo dos links pela API /api/link ----------
+  // A senha fica guardada só nesta aba e some quando ela é fechada.
+  async function carimbar(url, tipo) {
+    const u = new URL(url), g = k => u.searchParams.get(k) || '';
+    const dados = { tipo, servico: g('servico'), valor: g('valor'), forma: g('forma'), prazo: g('prazo'), escopo: g('escopo'), ref: g('ref') };
+    let senha = sessionStorage.getItem('vitrapi-links') || '';
+    if (!senha) senha = prompt('Senha para carimbar os links:') || '';
+    if (!senha) throw new Error('sem a senha, os links não foram carimbados.');
+    let r;
+    try {
+      r = await fetch('/api/link', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ acao: 'assinar', senha, dados }) });
+    } catch (e) {
+      throw new Error('não consegui falar com a API. Confira a internet e se a página foi aberta pelo site publicado (https://), não pelo arquivo do computador.');
+    }
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 401) { sessionStorage.removeItem('vitrapi-links'); throw new Error('a senha está incorreta. Clique em "Gerar PDF e links" de novo.'); }
+    if (r.status === 404) throw new Error('a API não foi encontrada. Confira se a pasta "api" com o arquivo "link.js" foi publicada.');
+    if (!r.ok || !j.sig) throw new Error((j.erro ? j.erro + ' ' : '') + 'Os links não foram carimbados.');
+    sessionStorage.setItem('vitrapi-links', senha);
+    u.searchParams.set('sig', j.sig);
+    return u.href;
+  }
+  async function carimbarLinks(k) {
+    return { ...k, contrato: await carimbar(k.contrato, 'contrato'), pagar: await carimbar(k.pagar, 'pagar') };
+  }
+
   function mensagem(d) {
     return ['Oi, ' + primeiro(d.cliente) + '! Segue a proposta ' + d.numero + ' da Vitrapi para ' + SERVICOS[d.servico] + (d.negocio ? ' do ' + d.negocio : '') + '.', '',
       'Investimento: ' + (d.forma === 'unico' ? brl(d.valor) + ' (50% para começar e 50% na entrega)' : brl(d.valor) + ' por mês, sem fidelidade'),
@@ -294,12 +322,16 @@
 
   // ---------- botões ----------
   $('rascunho').addEventListener('click', () => { const d = ler(false); if (!d) return; salvar(d, 'rascunho'); $('erro').style.color = '#085041'; $('erro').textContent = 'Rascunho salvo.'; setTimeout(() => { $('erro').textContent = ''; $('erro').style.color = ''; }, 2000); });
-  $('gerar').addEventListener('click', () => {
+  $('gerar').addEventListener('click', async () => {
     const d = ler(true); if (!d) return;
     if (!window.jspdf) { $('erro').textContent = 'Não foi possível carregar o gerador de PDF. Confira a internet e recarregue a página.'; return; }
     try { gerarPDF(d); } catch (e) { $('erro').textContent = 'Algo deu errado ao gerar o PDF. Tente de novo.'; return; }
     salvar(d, 'enviada');
-    const k = links(d);
+    const botao = $('gerar'); botao.disabled = true; botao.textContent = 'Carimbando os links…';
+    let k;
+    try { k = await carimbarLinks(links(d)); }
+    catch (e) { $('erro').textContent = 'O PDF foi gerado, mas ' + e.message; return; }
+    finally { botao.disabled = false; botao.textContent = 'Gerar PDF e links'; }
     $('s-msg').value = mensagem(d);
     const tel = (d.tel || '').replace(/\D/g, '');
     $('s-wpp').hidden = !tel;
