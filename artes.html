@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<title>Artes da Vitrapi · uso interno</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  :root{--carvao:#1F1F1F;--amarelo:#F5B700;--fundo:#F7F7F5;--mono:'JetBrains Mono',monospace;--sans:'Inter',system-ui,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:#D9D9D6;color:var(--carvao);padding:30px}
+  .ajuda{max-width:1080px;margin:0 auto 20px;background:#fff;border-radius:14px;padding:22px 26px;line-height:1.6;font-size:15px}
+  .ajuda h1{font-size:22px;margin-bottom:6px}
+  .ajuda ol{margin:8px 0 0 22px}
+  .ajuda button{margin-top:14px;font:inherit;font-weight:600;background:var(--carvao);color:#fff;border:0;border-radius:10px;padding:12px 18px;cursor:pointer}
+  .rot{max-width:1080px;margin:50px auto 12px;font-family:var(--mono);font-size:14px;color:#444}
+  #og{display:block;margin:0 auto;max-width:100%;height:auto;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+
+  /* ===== logo quadrado (foto de perfil do Google e do Instagram) ===== */
+  .logoq{width:720px;height:720px;margin:0 auto;background:var(--carvao);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+  .logoq div{font-family:var(--mono);font-weight:700;font-size:104px;color:#F7F7F5;letter-spacing:-2px}
+  .logoq .b{color:#8A8A8A}.logoq .a{color:var(--amarelo)}
+  .logoq svg{width:380px;height:76px}
+
+  /* ===== posts 1080 x 1350 (formato retrato do Instagram) ===== */
+  .post{width:1080px;height:1350px;margin:0 auto;padding:84px 80px 64px;display:flex;flex-direction:column;overflow:hidden;position:relative}
+  .post-claro{background:var(--fundo)}
+  .post-escuro{background:var(--carvao);color:#fff}
+  .post-amarelo{background:var(--amarelo)}
+  .p-eyebrow{font-family:var(--mono);font-size:28px;font-weight:500;color:#8a6a00}
+  .p-eyebrow::before{content:'// '}
+  .post-escuro .p-eyebrow{color:var(--amarelo)}
+  .post-amarelo .p-eyebrow{color:#5a4300}
+  .p-tit{font-size:74px;font-weight:800;letter-spacing:-2px;line-height:1.06;margin-top:16px}
+  .p-tit em{font-style:normal;background:linear-gradient(transparent 62%,var(--amarelo) 62%)}
+  .post-escuro .p-tit em{background:none;color:var(--amarelo)}
+  .p-sub{font-size:33px;line-height:1.4;color:#555;margin-top:22px}
+  .post-escuro .p-sub{color:#BBB}
+  .post-amarelo .p-sub{color:#4a3700}
+  .p-meio{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0}
+  .p-lado{flex:1;display:grid;grid-template-columns:1fr auto;gap:44px;align-items:center;min-height:0}
+  .p-lado .p-tit{font-size:62px}
+  .p-rodape{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:26px;color:#777;margin-top:26px}
+  .post-escuro .p-rodape{color:#999}
+  .post-amarelo .p-rodape{color:#5a4300}
+  .p-logo{font-family:var(--mono);font-weight:700;font-size:34px;color:var(--carvao)}
+  .p-logo .b{color:#8A8A8A}.p-logo .a{color:var(--amarelo)}
+  .post-escuro .p-logo{color:#F7F7F5}
+  .p-logo.caixa{background:var(--carvao);color:#F7F7F5;padding:8px 18px;border-radius:12px}
+  .p-nota{font-family:var(--mono);font-size:20px;color:#999;text-align:center;margin-top:18px}
+  .p-capa{font-size:88px;font-weight:800;letter-spacing:-2.5px;line-height:1.08;margin-top:40px}
+  .p-capa span{display:block;color:#777}
+  .p-virada{font-size:64px;font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-top:auto}
+  .p-virada em{font-style:normal;color:var(--amarelo)}
+  .p-preco{font-family:var(--mono);font-size:120px;font-weight:700;letter-spacing:-3px;margin-top:30px}
+  .p-preco small{font-size:40px;font-family:var(--sans);font-weight:500;letter-spacing:0}
+  .p-lista{list-style:none;margin-top:26px}
+  .p-lista li{font-size:36px;padding:12px 0 12px 54px;position:relative;border-bottom:2px dashed rgba(0,0,0,.15)}
+  .p-lista li::before{content:'✓';position:absolute;left:0;font-weight:800}
+  .p-contato{margin-top:auto;background:var(--carvao);color:#fff;border-radius:22px;padding:30px 36px;display:flex;justify-content:space-between;align-items:center}
+  .p-contato small{display:block;font-size:26px;color:#BBB}
+  .p-contato b{font-size:44px;font-family:var(--mono)}
+  .p-contato span{font-family:var(--mono);font-size:30px;color:var(--amarelo)}
+
+  /* ===== telas do sistema (as mesmas do site, dados fictícios) ===== */
+  .sx-janela{border-radius:14px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.2);border:1px solid #2b2b2b;transform:rotate(-1deg);line-height:1.4;width:600px}
+  .sx-janela-barra{background:#2A2A2E;padding:8px 12px;display:flex;align-items:center;gap:6px}
+  .sx-janela-barra i{width:9px;height:9px;border-radius:50%;background:#555;display:block}
+  .sx-janela-barra span{margin-left:10px;flex:1;background:#1A1A1C;color:#999;font-family:var(--mono);font-size:10.5px;border-radius:6px;padding:3px 10px}
+  .sx-lousa{background:#24382E;color:#F2F0E6;font-size:11px}
+  .sx-topo{background:#17251D;border-bottom:5px solid #8A6A43;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;flex-wrap:wrap}
+  .sx-logo{font-family:var(--mono);font-weight:700;font-size:12px;color:#F7F7F5;display:flex;align-items:center}
+  .sx-logo .b{color:#8A8A8A}.sx-logo .a{color:#F5B700}
+  .sx-logo small{font-family:var(--sans);font-weight:400;font-size:10px;color:rgba(242,240,230,.7);margin-left:8px;padding-left:8px;border-left:1px solid rgba(255,255,255,.2)}
+  .sx-abas{display:flex;gap:2px;flex-wrap:wrap}
+  .sx-abas span{padding:3px 8px;border-radius:999px;color:rgba(242,240,230,.6);font-size:10px}
+  .sx-abas span.on{background:rgba(255,255,255,.12);color:#fff}
+  .sx-corpo{padding:14px 14px 6px}
+  .sx-ola{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+  .sx-ola>div>b{font-family:'Patrick Hand',cursive;font-weight:400;font-size:26px;line-height:1;display:block}
+  .sx-ola>div>small{color:#AEBBAE;font-size:10.5px}
+  .sx-nums{display:flex;gap:14px;text-align:center}
+  .sx-nums b{font-family:'Patrick Hand',cursive;font-weight:400;font-size:20px;display:block;line-height:1.1}
+  .sx-nums b.warn{color:#F3D36B}
+  .sx-nums span{font-size:9.5px;color:#AEBBAE}
+  .sx-chips{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+  .sx-chips span{border:1px solid rgba(242,240,230,.28);border-radius:999px;padding:3px 9px;font-size:9.5px}
+  .sx-chips span.on{background:#F2F0E6;color:#1F3127;border-color:#F2F0E6}
+  .sx-folha{border:1.5px dashed rgba(242,240,230,.18);border-radius:6px;padding:7px 10px;margin:10px 0 14px;font-size:10.5px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .sx-folha small{display:block;color:#AEBBAE;font-size:9.5px}
+  .sx-folha em{font-style:normal;background:#F2F0E6;color:#1F3127;border-radius:999px;padding:4px 9px;font-weight:600;font-size:9.5px;white-space:nowrap}
+  .sx-quadro{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .sx-col-t{font-family:'Patrick Hand',cursive;font-size:16px;border-bottom:1.5px dashed rgba(242,240,230,.18);padding-bottom:3px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline}
+  .sx-col-t span{font-family:var(--sans);font-size:10px;color:#AEBBAE}
+  .sx-recado{position:relative;border-radius:3px;padding:10px 9px 9px;margin-bottom:12px;transform:rotate(var(--g,0deg))}
+  .sx-recado::before{content:"";position:absolute;top:-5px;left:50%;margin-left:-5px;width:10px;height:10px;border-radius:50%;background:#8A6A43;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)}
+  .sx-recado small{display:block;font-size:9.5px;font-weight:500}
+  .sx-recado b{display:block;font-family:'Patrick Hand',cursive;font-weight:400;font-size:15px;line-height:1.1;margin-top:1px}
+  .sx-recado span{display:block;font-size:9.5px;margin-top:2px;line-height:1.3}
+  .sx-recado em{display:inline-block;font-style:normal;margin-top:7px;border-radius:5px;padding:4px 7px;font-size:9.5px;font-weight:600}
+  .sx-rosa{background:#F4C2CC;color:#5C1626}.sx-rosa em{background:#5C1626;color:#F4C2CC}
+  .sx-amarelo{background:#F6E27A;color:#4A3B00}.sx-amarelo em{background:#4A3B00;color:#F6E27A}
+  .sx-azul{background:#BFE0F2;color:#0E3A55}.sx-azul em{background:#0E3A55;color:#BFE0F2}
+  .sx-lilas{background:#D9CFF5;color:#33236E}.sx-lilas em{background:#33236E;color:#D9CFF5}
+  .sx-verde{background:#C6E9CF;color:#174B2B}
+  .sx-cel{width:290px;background:#111;border-radius:36px;padding:10px;box-shadow:0 30px 60px rgba(0,0,0,.22);line-height:1.4}
+  .sx-cel-tela{border-radius:28px;overflow:hidden;font-size:11px}
+  .sx-status{display:flex;justify-content:space-between;padding:8px 18px 4px;font-size:10.5px;font-weight:600}
+  .sx-pai{background:#EFEDE7;color:#1A1410;padding-bottom:14px}
+  .sx-folhapai{background:#fff;border-radius:14px;margin:6px 10px 0;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+  .sx-marca{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-weight:700;font-size:11.5px}
+  .sx-marca .b{color:#8A8A8A}.sx-marca .a{color:#F5B700}.sx-marca .v{color:#1A1410}
+  .sx-marca small{font-family:var(--sans);font-weight:400;font-size:10px;color:#5A5047;border-left:1px solid rgba(26,20,16,.12);padding-left:8px}
+  .sx-van{display:flex;gap:9px;align-items:center;background:#FBFAF7;border-radius:10px;padding:9px;margin:10px 0}
+  .sx-van i{width:30px;height:30px;border-radius:8px;background:#F6C510;display:grid;place-items:center;font-style:normal;font-size:15px;flex:none}
+  .sx-van b{display:block;font-size:11px}
+  .sx-van span{font-size:9.5px;color:#8A7F74}
+  .sx-txt{border:1px solid rgba(26,20,16,.1);border-radius:10px;padding:9px 10px;font-size:9.5px;line-height:1.55;color:#5A5047;height:100px;overflow:hidden;position:relative}
+  .sx-txt::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30px;background:linear-gradient(rgba(255,255,255,0),#fff)}
+  .sx-priv{border:1px solid rgba(26,20,16,.1);border-radius:10px;padding:7px 10px;margin-top:8px;font-size:10px;font-weight:600}
+  .sx-check{display:flex;gap:7px;align-items:flex-start;font-size:10px;margin-top:10px;line-height:1.4}
+  .sx-check i{width:13px;height:13px;border-radius:3px;background:#F4845F;color:#fff;font-style:normal;font-size:9px;display:grid;place-items:center;flex:none;margin-top:1px}
+  .sx-campo{margin-top:9px}
+  .sx-campo small{display:block;font-size:8.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A7F74}
+  .sx-campo div{border:1px solid rgba(26,20,16,.15);border-radius:8px;padding:7px 9px;margin-top:4px;font-size:11px}
+  .sx-campo div.sx-dig{letter-spacing:.3em;font-family:var(--mono)}
+  .sx-codigo{background:#FAEEDA;color:#633806;border-radius:8px;padding:8px 9px;margin-top:9px;font-size:9.5px;line-height:1.45}
+  .sx-codigo em{display:inline-block;font-style:normal;background:#fff;color:#1A1410;border:1px solid rgba(26,20,16,.18);border-radius:999px;padding:4px 9px;font-weight:600;margin-bottom:5px}
+  .sx-assinar{margin-top:11px;background:#F4845F;color:#fff;text-align:center;border-radius:999px;padding:9px;font-weight:600;font-size:11.5px}
+  .sx-rt{background:#141416;color:#EDEDED;padding-bottom:10px}
+  .sx-rt .sx-status{background:#0E0E10}
+  .sx-rt-topo{background:#0E0E10;display:flex;justify-content:space-between;align-items:center;padding:4px 14px 10px;font-size:10.5px}
+  .sx-rt-topo>span{color:rgba(255,248,242,.85)}
+  .sx-rt-topo div{text-align:right;line-height:1.3}
+  .sx-rt-topo b{display:block;font-size:11.5px;color:#fff}
+  .sx-rt-topo small{font-size:9.5px;color:rgba(255,248,242,.7)}
+  .sx-rt-in{padding:10px 10px 0}
+  .sx-seg{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#1E1E22;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:3px;margin-bottom:7px}
+  .sx-seg span{text-align:center;padding:7px 4px;border-radius:7px;font-size:10px;font-weight:600;color:#9A9AA2}
+  .sx-seg span.on{background:#F6C510;color:#1A1500}
+  .sx-res{background:#1E1E22;border-radius:12px;padding:10px;margin:2px 0 8px}
+  .sx-plaq{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+  .sx-plaq b{display:inline-block;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:17px;color:#F6C510;background:#2A2A2E;padding:1px 8px;border-radius:3px;position:relative;margin-bottom:2px}
+  .sx-plaq b::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.7)}
+  .sx-plaq span{display:block;font-size:9px;color:#9A9AA2}
+  .sx-saida{display:flex;justify-content:space-between;align-items:center;font-size:10px;margin:9px 0 7px}
+  .sx-saida em{font-style:normal;border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:3px 8px;font-family:'IBM Plex Mono',monospace}
+  .sx-ir{background:#F6C510;color:#1A1500;text-align:center;border-radius:999px;padding:8px;font-weight:600;font-size:11px}
+  .sx-prog{text-align:center;font-size:10px;font-weight:600;margin-top:7px}
+  .sx-mapa{border-radius:12px;overflow:hidden;margin-bottom:8px}
+  .sx-mapa svg{display:block;width:100%;height:auto}
+  .sx-parada{display:grid;grid-template-columns:26px 1fr auto;gap:3px 9px;align-items:start;background:#1E1E22;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px;margin-bottom:7px}
+  .sx-parada.prox{border:2px solid #F6C510}
+  .sx-parada.feita{opacity:.55}
+  .sx-n{width:26px;height:26px;border-radius:50%;background:#2A2A2E;color:#F6C510;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px}
+  .prox .sx-n{background:#F6C510;color:#1A1500}
+  .feita .sx-n{background:#5CCB98;color:#0B2519}
+  .sx-hora{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#F6C510}
+  .sx-nome{display:block;font-size:12.5px;font-weight:600}
+  .sx-sub{display:block;font-size:9.5px;color:#9A9AA2;margin-top:2px}
+  .sx-alerg{display:block;font-size:9.5px;font-weight:600;margin-top:5px;padding:4px 7px;border-radius:6px;background:#3D1B1B;color:#F6B1B1}
+  .sx-selo{font-size:8.5px;font-weight:700;letter-spacing:.05em;padding:3px 7px;border-radius:999px;white-space:nowrap;background:#F6C510;color:#1A1500}
+  .sx-selo.verde{background:#173A2C;color:#A6E8C9}
+  .sx-bts{grid-column:1/-1;display:flex;gap:6px;margin-top:6px}
+  .sx-bts span{flex:1;text-align:center;border-radius:999px;padding:7px 4px;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.2);color:#EDEDED}
+  .sx-bts span.verde{flex:1.6;background:#5CCB98;color:#0B2519;border-color:#5CCB98}
+</style>
+</head>
+<body>
+
+<div class="ajuda">
+  <h1>Artes da Vitrapi</h1>
+  Este arquivo é só seu: não precisa ir para o site. Use com internet ligada (as letras vêm do Google).
+  <ol>
+    <li><b>Imagem da prévia do WhatsApp:</b> clique no botão abaixo. Salve o arquivo <code>og-vitrapi.jpg</code> na mesma pasta do <code>index.html</code> do site.</li>
+    <li><b>Logo quadrado e posts:</b> abra no Google Chrome, aperte F12, clique na setinha do canto (ou Ctrl+Shift+C) e clique na borda da arte. Na lista que aparece, clique com o botão direito na linha que começa com <code>&lt;div class="post</code> (ou <code>&lt;div class="logoq</code>) e escolha "Capture node screenshot" (em português, algo como "Capturar captura de tela do nó"). A imagem baixa no tamanho certo.</li>
+  </ol>
+  <button type="button" id="baixar-og">Baixar imagem da prévia (og-vitrapi.jpg)</button>
+</div>
+
+<div class="rot">// imagem da prévia do link · 1200 × 630</div>
+<canvas id="og" width="1200" height="630"></canvas>
+
+<div class="rot">// logo quadrado · foto de perfil do Google e do Instagram</div>
+<div class="logoq" id="logo-quadrado">
+  <div><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></div>
+  <svg viewBox="0 0 140 28" aria-hidden="true"><path d="M10 6 Q70 34 130 6" fill="none" stroke="#F5B700" stroke-width="5" stroke-linecap="round"/><rect x="4" y="0" width="12" height="12" fill="#F7F7F5"/><rect x="124" y="0" width="12" height="12" fill="#F7F7F5"/></svg>
+</div>
+
+<!-- ===== POST 1 · CAPA ===== -->
+<div class="rot">// post 1 de 5 · capa</div>
+<div class="post post-escuro" id="post-1">
+  <div class="p-eyebrow">caso real</div>
+  <div class="p-capa">Contrato em papel.<span>Mensalidade no caderno.</span>Cobrança de cabeça.</div>
+  <div class="p-virada">Até a van escolar ganhar<br>um <em>sistema de verdade</em>.</div>
+  <div class="p-rodape"><span class="p-logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></span><span>arraste →</span></div>
+</div>
+
+<!-- ===== POST 2 · TELA INICIAL ===== -->
+<div class="rot">// post 2 de 5 · tela inicial</div>
+<div class="post post-claro" id="post-2">
+  <div class="p-eyebrow">tela inicial</div>
+  <div class="p-tit">O dia começa pelo que <em>precisa ser feito</em>.</div>
+  <div class="p-sub">Cobranças, lembretes, aniversários e documentos aparecem sozinhos no quadro.</div>
+  <div class="p-meio">
+    <div style="zoom:1.35">
+      <div class="sx-janela">
+        <div class="sx-janela-barra"><i></i><i></i><i></i><span>🔒 painel da van · Início</span></div>
+        <div class="sx-lousa">
+          <div class="sx-topo">
+            <div class="sx-logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span><small>Tia Patrícia e Tio Vitor</small></div>
+            <div class="sx-abas"><span class="on">Início</span><span>Contratos</span><span>Financeiro</span><span>Roteiro</span><span>Documentos (1)</span></div>
+          </div>
+          <div class="sx-corpo">
+            <div class="sx-ola">
+              <div><b>Bom dia, Patrícia</b><small>Quinta-feira, 4 de março</small></div>
+              <div class="sx-nums">
+                <div><b>41 de 46</b><span>lugares ocupados</span></div>
+                <div><b class="warn">R$ 1.920,00</b><span>em aberto em março</span></div>
+                <div><b>38</b><span>contratos assinados</span></div>
+              </div>
+            </div>
+            <div class="sx-chips"><span class="on">Manhã e tarde</span><span>Só manhã</span><span>Só tarde</span></div>
+            <div class="sx-folha"><div>Conferir a folha de pagamento de março<small>Faltam 6 de 41 mensalidades, somando R$ 1.920,00</small></div><em>Abrir Financeiro</em></div>
+            <div class="sx-quadro">
+              <div>
+                <div class="sx-col-t">Fazer agora<span>3</span></div>
+                <div class="sx-recado sx-rosa" style="--g:-1.2deg"><small>Atrasada há 6 dias</small><b>Marcos Lima</b><span>Bia Lima, março, R$ 320,00</span><em>Cobrar no WhatsApp</em></div>
+                <div class="sx-recado sx-amarelo" style="--g:.9deg"><small>Aniversário hoje</small><b>Davi faz 8 anos</b><span>Turma da manhã</span><em>Mandar parabéns</em></div>
+                <div class="sx-recado sx-amarelo" style="--g:-.5deg"><small>Vence hoje</small><b>João Reis</b><span>Pedro Reis, março, R$ 320,00</span><em>Lembrar no WhatsApp</em></div>
+              </div>
+              <div>
+                <div class="sx-col-t">Esta semana<span>3</span></div>
+                <div class="sx-recado sx-amarelo" style="--g:.7deg"><small>Vence amanhã</small><b>Fernanda Alves</b><span>Laura Alves, março, R$ 290,00</span><em>Lembrar no WhatsApp</em></div>
+                <div class="sx-recado sx-lilas" style="--g:-1deg"><small>Sem assinar há 4 dias</small><b>Paulo Mendes</b><span>Contrato de Helena Mendes</span><em>Reenviar link</em></div>
+                <div class="sx-recado sx-azul" style="--g:.6deg"><small>Vence em 5 dias</small><b>Vistoria do Detran</b><em>Abrir documentos</em></div>
+              </div>
+              <div>
+                <div class="sx-col-t">Feito hoje<span>2</span></div>
+                <div class="sx-recado sx-verde" style="--g:-.8deg"><small>Pagamento no Pix</small><b>Ana Souza</b><span>Lucas Souza, março, R$ 320,00</span></div>
+                <div class="sx-recado sx-verde" style="--g:1deg"><small>Lembrete enviado</small><b>Carla Dias</b><span>Sofia Dias, março, R$ 320,00</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-nota">// dados fictícios</div>
+  </div>
+  <div class="p-rodape"><span class="p-logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></span><span>2/5</span></div>
+</div>
+
+<!-- ===== POST 3 · RESPONSÁVEL ASSINANDO ===== -->
+<div class="rot">// post 3 de 5 · tela do responsável</div>
+<div class="post post-claro" id="post-3">
+  <div class="p-lado">
+    <div>
+      <div class="p-eyebrow">assinatura</div>
+      <div class="p-tit">O pai assina <em>pelo celular</em>.</div>
+      <div class="p-sub">Lê o contrato, recebe um código por e-mail e assina. Sem imprimir nada, e o PDF chega na hora.</div>
+      <div class="p-nota" style="text-align:left">// dados fictícios</div>
+    </div>
+    <div style="zoom:1.45">
+      <div class="sx-cel">
+        <div class="sx-cel-tela sx-pai">
+          <div class="sx-status"><span>9:41</span><span>5G ▮</span></div>
+          <div class="sx-folhapai">
+            <div class="sx-marca"><span><span class="b">&lt;</span><span class="v">vitr</span><span class="a">api</span><span class="b">/&gt;</span></span><small>Tia Patrícia e Tio Vitor</small></div>
+            <div class="sx-van"><i>🚐</i><div><b>Contrato de transporte escolar 2027</b><span>Van Escolar Tia Patrícia e Tio Vitor</span></div></div>
+            <div class="sx-txt">CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE TRANSPORTE DE ESTUDANTES · 2027<br><br>CONTRATANTE: Ana Souza, CPF 000.000.000-00, telefone (11) 9xxxx-xxxx, e-mail familia1@exemplo.com.<br>ALUNO(A): Lucas Souza, 3º ano, turma da manhã.<br>ENDEREÇO DE EMBARQUE: Rua das Flores, 100, Centro.</div>
+            <div class="sx-priv">Como usamos seus dados ▸</div>
+            <div class="sx-check"><i>✓</i>Li o contrato inteiro e concordo com todas as cláusulas.</div>
+            <div class="sx-campo"><small>Seu nome completo</small><div>Ana Souza</div></div>
+            <div class="sx-campo"><small>CPF</small><div>000.000.000-00</div></div>
+            <div class="sx-codigo"><em>Reenviar código</em><br>Enviamos um código para fa•••@exemplo.com. Ele vale por 15 minutos.</div>
+            <div class="sx-campo"><small>Código de 6 números recebido por e-mail</small><div class="sx-dig">482197</div></div>
+            <div class="sx-assinar">Assinar contrato</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-rodape"><span class="p-logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></span><span>3/5</span></div>
+</div>
+
+<!-- ===== POST 4 · ROTEIRO ===== -->
+<div class="rot">// post 4 de 5 · roteiro</div>
+<div class="post post-escuro" id="post-4">
+  <div class="p-lado">
+    <div>
+      <div class="p-eyebrow">roteiro da van</div>
+      <div class="p-tit">A ordem das paradas sai <em>sozinha</em>.</div>
+      <div class="p-sub">A próxima casa fica em destaque, com os avisos de saúde. Tocou em "Embarcou", o outro celular vê na hora.</div>
+      <div class="p-nota" style="text-align:left">// dados fictícios</div>
+    </div>
+    <div style="zoom:1.4">
+      <div class="sx-cel">
+        <div class="sx-cel-tela sx-rt">
+          <div class="sx-status"><span>6:58</span><span>5G ▮</span></div>
+          <div class="sx-rt-topo"><span>← Painel</span><div><b>Roteiro da van</b><small>Quinta-feira, 4 de março</small></div></div>
+          <div class="sx-rt-in">
+            <div class="sx-seg"><span class="on">☀️ Manhã</span><span>🌇 Tarde</span></div>
+            <div class="sx-seg"><span class="on">Ida · buscar em casa</span><span>Volta · levar para casa</span></div>
+            <div class="sx-res">
+              <div class="sx-plaq"><div><b>9</b><span>crianças</span></div><div><b>14,2</b><span>km</span></div><div><b>~38</b><span>minutos</span></div></div>
+              <div class="sx-saida">Que horas a van sai? <em>06:30</em></div>
+              <div class="sx-ir">▶ Começar no Google Maps</div>
+              <div class="sx-prog">3 de 7 paradas feitas · próxima: Sofia Dias</div>
+            </div>
+            <div class="sx-mapa">
+              <svg viewBox="0 0 280 170" xmlns="http://www.w3.org/2000/svg">
+                <rect width="280" height="170" fill="#1B1D22"/>
+                <rect x="164" y="112" width="30" height="34" rx="4" fill="#1E2A22"/>
+                <g stroke="#2C2F36" stroke-width="7" fill="none" stroke-linecap="round"><path d="M0 30H280M0 80H280M0 132H280M40 0V170M118 0V170M200 0V170M252 0V170"/></g>
+                <g stroke="#24272D" stroke-width="3" fill="none"><path d="M0 55H280M0 106H280M79 0V170M160 0V170M226 0V170"/></g>
+                <path d="M22 148 L60 124 L95 110 L150 96 L150 62 L190 40 L225 62 L240 100 L262 140" fill="none" stroke="#0E0E10" stroke-opacity=".6" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+                <path d="M22 148 L60 124 L95 110 L150 96 L150 62 L190 40 L225 62 L240 100 L262 140" fill="none" stroke="#F6C510" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+                <g font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" text-anchor="middle">
+                  <circle cx="22" cy="148" r="9" fill="#fff" stroke="#0E0E10" stroke-width="1.5"/><text x="22" y="151.5">🚐</text>
+                  <circle cx="60" cy="124" r="8.5" fill="#1D9E75" stroke="#fff" stroke-width="1.5"/><text x="60" y="127.2" fill="#fff">1</text>
+                  <circle cx="95" cy="110" r="8.5" fill="#1D9E75" stroke="#fff" stroke-width="1.5"/><text x="95" y="113.2" fill="#fff">2</text>
+                  <circle cx="150" cy="96" r="8.5" fill="#1D9E75" stroke="#fff" stroke-width="1.5"/><text x="150" y="99.2" fill="#fff">3</text>
+                  <circle cx="150" cy="62" r="16" fill="#F6C510" opacity=".25"/>
+                  <circle cx="150" cy="62" r="11" fill="#F6C510" stroke="#fff" stroke-width="2"/><text x="150" y="65.6" fill="#0E0E10" font-size="10">4</text>
+                  <circle cx="190" cy="40" r="8.5" fill="#0E0E10" stroke="#fff" stroke-width="1.5"/><text x="190" y="43.2" fill="#F6C510">5</text>
+                  <circle cx="225" cy="62" r="8.5" fill="#0E0E10" stroke="#fff" stroke-width="1.5"/><text x="225" y="65.2" fill="#F6C510">6</text>
+                  <circle cx="240" cy="100" r="8.5" fill="#0E0E10" stroke="#fff" stroke-width="1.5"/><text x="240" y="103.2" fill="#F6C510">7</text>
+                  <circle cx="262" cy="140" r="9" fill="#fff" stroke="#0E0E10" stroke-width="1.5"/><text x="262" y="143.5">🏫</text>
+                </g>
+              </svg>
+            </div>
+            <div class="sx-parada prox">
+              <span class="sx-n">4</span>
+              <div><span class="sx-hora">07:02</span><span class="sx-nome">Sofia Dias</span><span class="sx-sub">Rua do Sol, 151 · Vila Nova</span><span class="sx-sub">Responsável: Carla Dias · (11) 9xxxx-xxxx</span><span class="sx-alerg">⚠ Alergia: amendoim</span></div>
+              <span class="sx-selo">PRÓXIMA</span>
+              <div class="sx-bts"><span>Waze</span><span>Ligar</span><span class="verde">✓ Embarcou</span></div>
+            </div>
+            <div class="sx-parada feita">
+              <span class="sx-n">3</span>
+              <div><span class="sx-hora">06:54</span><span class="sx-nome">Pedro Reis</span><span class="sx-sub">Avenida Central, 134 · Centro</span></div>
+              <span class="sx-selo verde">✓ Embarcou · 06:55</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-rodape"><span class="p-logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></span><span>4/5</span></div>
+</div>
+
+<!-- ===== POST 5 · CHAMADA ===== -->
+<div class="rot">// post 5 de 5 · chamada</div>
+<div class="post post-amarelo" id="post-5">
+  <div class="p-eyebrow">para transportadores escolares</div>
+  <div class="p-tit">Quer esse painel na sua van?</div>
+  <div class="p-preco">R$ 75 <small>por mês</small></div>
+  <ul class="p-lista">
+    <li>Contratos assinados pelo celular</li>
+    <li>Mensalidades e cobrança com Pix</li>
+    <li>Roteiro no mapa com a ordem das paradas</li>
+    <li>Ficha de saúde das crianças</li>
+  </ul>
+  <div class="p-contato"><div><small>Fale comigo no WhatsApp</small><b>(11) 94379-9108</b></div><span>vitrapi.com</span></div>
+  <div class="p-rodape"><span class="p-logo caixa"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span></span><span>5/5</span></div>
+</div>
+
+<script>
+  /* Desenha a imagem da prévia (1200 × 630) e baixa como JPG leve (o WhatsApp prefere imagens pequenas) */
+  async function desenharOG() {
+    const cv = document.getElementById('og'), c = cv.getContext('2d'), W = 1200, H = 630;
+    try { await Promise.all(['700 64px "JetBrains Mono"', '500 30px "JetBrains Mono"', '800 60px Inter', '400 30px Inter'].map(f => document.fonts.load(f))); } catch (e) { /* sem internet: usa letras do computador */ }
+    c.fillStyle = '#1F1F1F'; c.fillRect(0, 0, W, H);
+
+    /* trechos de código bem apagados nas laterais */
+    c.font = '500 22px "JetBrains Mono"'; c.fillStyle = 'rgba(255,255,255,.07)'; c.textAlign = 'left';
+    ['GET /api/clientes', '200 OK', '{', '  "site": "online",', '  "pedidos": 128', '}'].forEach((t, i) => c.fillText(t, 50, 80 + i * 44));
+    ['POST /assinatura', '<html>', 'def vender(produto):', 'SELECT * FROM pedidos;', '</body>'].forEach((t, i) => c.fillText(t, 870, 380 + i * 44));
+
+    /* logo <vitrapi/> centralizado */
+    const partes = [['<', '#8A8A8A'], ['vitr', '#F7F7F5'], ['api', '#F5B700'], ['/>', '#8A8A8A']];
+    c.font = '700 64px "JetBrains Mono"';
+    const larg = partes.reduce((s, [t]) => s + c.measureText(t).width, 0);
+    let x = (W - larg) / 2;
+    partes.forEach(([t, cor]) => { c.fillStyle = cor; c.fillText(t, x, 150); x += c.measureText(t).width; });
+    const ini = (W - larg) / 2 + 50, fim = (W + larg) / 2 - 50;
+    c.strokeStyle = '#F5B700'; c.lineWidth = 9; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(ini, 185); c.quadraticCurveTo(W / 2, 235, fim, 185); c.stroke();
+    c.fillStyle = '#F7F7F5'; c.fillRect(ini - 9, 172, 18, 18); c.fillRect(fim - 9, 172, 18, 18);
+
+    /* textos */
+    c.textAlign = 'center';
+    c.font = '800 60px Inter'; c.fillStyle = '#FFFFFF'; c.fillText('Sites, sistemas e APIs', W / 2, 320);
+    c.fillStyle = '#F5B700'; c.fillText('para pequenos negócios', W / 2, 392);
+    c.font = '400 30px Inter'; c.fillStyle = '#BBBBBB'; c.fillText('Cotia e região · resposta em até 1 dia útil', W / 2, 460);
+    c.font = '500 30px "JetBrains Mono"'; c.fillStyle = '#F5B700'; c.fillText('vitrapi.com', W / 2, 560);
+  }
+  desenharOG();
+  document.getElementById('baixar-og').addEventListener('click', () => {
+    document.getElementById('og').toBlob(b => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(b); a.download = 'og-vitrapi.jpg'; a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    }, 'image/jpeg', 0.9);
+  });
+</script>
+</body>
+</html>

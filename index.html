@@ -5,7 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vitrapi — landing pages, sistemas e APIs para pequenos negócios</title>
 <meta name="description" content="Sites, sistemas sob medida e integrações para MEI e pequenas empresas. Entrega rápida, preço justo, sem mensalidade escondida.">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://vitrapi.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vitrapi">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://vitrapi.com/">
+<meta property="og:title" content="Vitrapi · sites, sistemas e APIs para pequenos negócios">
+<meta property="og:description" content="Landing pages, sistemas sob medida e integrações para MEI e pequenas empresas de Cotia e região. Resposta em até 1 dia útil.">
+<meta property="og:image" content="https://vitrapi.com/og-vitrapi.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo da Vitrapi: sites, sistemas e APIs para pequenos negócios">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
 <style>
   :root{
     --carvao:#1F1F1F; --preto:#171717; --amarelo:#F5B700; --amarelo2:#FFC933;
@@ -273,47 +285,170 @@
 <section id="projetos">
   <style>
     /* caso */
-    .case{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center;margin-top:48px}
+    .case{display:grid;grid-template-columns:1fr 1.2fr;gap:44px;align-items:center;margin-top:48px}
     .case h3{font-size:26px;letter-spacing:-.5px;line-height:1.2}
     .case .local{font-family:var(--mono);font-size:13px;color:#777;margin-top:6px}
     .case h4{font-size:15px;margin:22px 0 6px}
     .case p{color:#555;font-size:15px}
-    .case ul{list-style:none;margin-top:6px}
-    .case li{font-size:15px;color:#444;padding:6px 0 6px 22px;position:relative}
-    .case li::before{content:'';position:absolute;left:0;top:14px;width:10px;height:10px;background:var(--amarelo)}
     .techs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
     .techs span{font-family:var(--mono);font-size:12px;background:var(--carvao);color:var(--amarelo);padding:5px 10px;border-radius:6px}
+    @media(max-width:860px){.case{grid-template-columns:1fr}}
 
-    /* desenho do painel (dados fictícios) */
-    .mock{background:#F3F1EC;border-radius:16px;overflow:hidden;border:1px solid var(--cinza2);box-shadow:0 30px 70px rgba(0,0,0,.12);font-size:12px;transform:rotate(-1.2deg)}
-    .mock-top{background:#0A0608;color:#FFF8F2;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px}
-    .mock-logo{font-family:var(--mono);font-weight:700;font-size:13px}
-    .mock-logo .b{color:#8A8A8A}.mock-logo .a{color:var(--amarelo)}
-    .mock-logo small{font-family:var(--sans);font-weight:400;font-size:11px;color:rgba(255,248,242,.7);margin-left:8px;padding-left:8px;border-left:1px solid rgba(255,255,255,.2)}
-    .mock-tabs{display:flex;gap:4px}
-    .mock-tabs span{padding:4px 9px;border-radius:999px;color:rgba(255,248,242,.6);font-size:11px}
-    .mock-tabs span.on{background:rgba(255,255,255,.12);color:#fff}
-    .mock-body{padding:14px}
-    .mock-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .mock-stat{background:#fff;border-radius:10px;padding:10px}
-    .mock-stat small{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#8A7F74;font-weight:600}
-    .mock-stat b{font-size:18px}
-    .mock-stat b.v{color:#1D9E75}.mock-stat b.l{color:#BA7517}
-    .mock-tab{background:#fff;border-radius:10px;margin-top:10px;overflow:hidden}
-    .mock-row{display:grid;grid-template-columns:1.3fr 1fr auto;gap:8px;align-items:center;padding:9px 12px;border-bottom:1px solid #F1EEE9}
-    .mock-row:last-child{border-bottom:0}
-    .mock-row small{display:block;color:#8A7F74;font-size:10px}
-    .mock-tag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap}
-    .mock-tag.ok{background:#E1F5EE;color:#085041}.mock-tag.esp{background:#FAEEDA;color:#633806}
-    .mock-meses{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;background:#fff;border-radius:10px;padding:10px 12px;align-items:center}
-    .mock-meses span{font-size:11px;margin-right:6px}
-    .mock-meses i{width:18px;height:18px;border-radius:5px;border:1.5px solid rgba(26,20,16,.15);display:grid;place-items:center;font-style:normal;font-size:9px;font-weight:700;color:#fff}
-    .mock-meses i.d{background:#1D9E75;border-color:#1D9E75}.mock-meses i.p{background:#2E8FA3;border-color:#2E8FA3}
-    .mock-nota{font-family:var(--mono);font-size:11px;color:#999;text-align:center;margin-top:14px}
-    @media(max-width:860px){.case{grid-template-columns:1fr}.mock{transform:none}}
+    /* grupos de funções */
+    .grupos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:48px}
+    .grupo{background:#fff;border:1px solid var(--cinza2);border-radius:16px;padding:24px;transition:border-color .2s,transform .2s}
+    .grupo:hover{border-color:var(--amarelo);transform:translateY(-3px)}
+    .grupo .gi{font-family:var(--mono);font-size:12px;color:#8a6a00;margin-bottom:6px}
+    .grupo .gi::before{content:'// '}
+    .grupo h4{font-size:17px;margin-bottom:8px}
+    .grupo ul{list-style:none}
+    .grupo li{font-size:14.5px;color:#444;padding:5px 0 5px 20px;position:relative;line-height:1.45}
+    .grupo li::before{content:'';position:absolute;left:0;top:12px;width:9px;height:9px;background:var(--amarelo)}
+
+    /* ===== TELAS DO SISTEMA (recriadas com dados fictícios) =====
+       Todas as classes começam com "sx-" para não se misturarem com o resto do site. */
+    .sx-nota{font-family:var(--mono);font-size:11px;color:#999;text-align:center;margin-top:14px}
+
+    /* janela de computador */
+    .sx-janela{border-radius:14px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.2);border:1px solid #2b2b2b;transform:rotate(-1deg);text-align:left;line-height:1.4}
+    .sx-janela-barra{background:#2A2A2E;padding:8px 12px;display:flex;align-items:center;gap:6px}
+    .sx-janela-barra i{width:9px;height:9px;border-radius:50%;background:#555;display:block}
+    .sx-janela-barra span{margin-left:10px;flex:1;background:#1A1A1C;color:#999;font-family:var(--mono);font-size:10.5px;border-radius:6px;padding:3px 10px}
+
+    /* tela inicial: lousa com recados */
+    .sx-lousa{background:#24382E;color:#F2F0E6;font-size:11px}
+    .sx-topo{background:#17251D;border-bottom:5px solid #8A6A43;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;flex-wrap:wrap}
+    .sx-logo{font-family:var(--mono);font-weight:700;font-size:12px;color:#F7F7F5;display:flex;align-items:center}
+    .sx-logo .b{color:#8A8A8A}.sx-logo .a{color:#F5B700}
+    .sx-logo small{font-family:var(--sans);font-weight:400;font-size:10px;color:rgba(242,240,230,.7);margin-left:8px;padding-left:8px;border-left:1px solid rgba(255,255,255,.2)}
+    .sx-abas{display:flex;gap:2px;flex-wrap:wrap}
+    .sx-abas span{padding:3px 8px;border-radius:999px;color:rgba(242,240,230,.6);font-size:10px}
+    .sx-abas span.on{background:rgba(255,255,255,.12);color:#fff}
+    .sx-corpo{padding:14px 14px 6px}
+    .sx-ola{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+    .sx-ola>div>b{font-family:'Patrick Hand',cursive;font-weight:400;font-size:26px;line-height:1;display:block}
+    .sx-ola>div>small{color:#AEBBAE;font-size:10.5px}
+    .sx-nums{display:flex;gap:14px;text-align:center}
+    .sx-nums b{font-family:'Patrick Hand',cursive;font-weight:400;font-size:20px;display:block;line-height:1.1}
+    .sx-nums b.warn{color:#F3D36B}
+    .sx-nums span{font-size:9.5px;color:#AEBBAE}
+    .sx-chips{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+    .sx-chips span{border:1px solid rgba(242,240,230,.28);border-radius:999px;padding:3px 9px;font-size:9.5px}
+    .sx-chips span.on{background:#F2F0E6;color:#1F3127;border-color:#F2F0E6}
+    .sx-folha{border:1.5px dashed rgba(242,240,230,.18);border-radius:6px;padding:7px 10px;margin:10px 0 14px;font-size:10.5px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .sx-folha small{display:block;color:#AEBBAE;font-size:9.5px}
+    .sx-folha em{font-style:normal;background:#F2F0E6;color:#1F3127;border-radius:999px;padding:4px 9px;font-weight:600;font-size:9.5px;white-space:nowrap}
+    .sx-quadro{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .sx-col-t{font-family:'Patrick Hand',cursive;font-size:16px;border-bottom:1.5px dashed rgba(242,240,230,.18);padding-bottom:3px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline}
+    .sx-col-t span{font-family:var(--sans);font-size:10px;color:#AEBBAE}
+    .sx-recado{position:relative;border-radius:3px;padding:10px 9px 9px;margin-bottom:12px;transform:rotate(var(--g,0deg))}
+    .sx-recado::before{content:"";position:absolute;top:-5px;left:50%;margin-left:-5px;width:10px;height:10px;border-radius:50%;background:#8A6A43;box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)}
+    .sx-recado small{display:block;font-size:9.5px;font-weight:500}
+    .sx-recado b{display:block;font-family:'Patrick Hand',cursive;font-weight:400;font-size:15px;line-height:1.1;margin-top:1px}
+    .sx-recado span{display:block;font-size:9.5px;margin-top:2px;line-height:1.3}
+    .sx-recado em{display:inline-block;font-style:normal;margin-top:7px;border-radius:5px;padding:4px 7px;font-size:9.5px;font-weight:600}
+    .sx-rosa{background:#F4C2CC;color:#5C1626}.sx-rosa em{background:#5C1626;color:#F4C2CC}
+    .sx-amarelo{background:#F6E27A;color:#4A3B00}.sx-amarelo em{background:#4A3B00;color:#F6E27A}
+    .sx-azul{background:#BFE0F2;color:#0E3A55}.sx-azul em{background:#0E3A55;color:#BFE0F2}
+    .sx-lilas{background:#D9CFF5;color:#33236E}.sx-lilas em{background:#33236E;color:#D9CFF5}
+    .sx-verde{background:#C6E9CF;color:#174B2B}
+    @media(max-width:560px){.sx-quadro{grid-template-columns:1fr 1fr}.sx-quadro>div:last-child{display:none}.sx-nums{gap:10px}.sx-janela{transform:none}}
+
+    /* galeria: contrato, responsável e roteiro */
+    .sx-galeria-topo{margin-top:80px}
+    .sx-tit{font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.5px;line-height:1.2}
+    .sx-sub2{color:#555;font-size:16px;margin-top:8px;max-width:640px}
+    .sx-galeria{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:36px;align-items:start}
+    @media(max-width:980px){.sx-galeria{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:640px){.sx-galeria{grid-template-columns:1fr}}
+    .sx-leg{margin-top:18px}
+    .sx-leg b{display:block;font-family:var(--mono);font-size:12px;font-weight:500;color:#8a6a00}
+    .sx-leg b::before{content:'// '}
+    .sx-leg span{display:block;color:#555;font-size:14.5px;margin-top:4px;line-height:1.5}
+
+    /* contrato */
+    .sx-papel{background:#fff;border:1px solid var(--cinza2);border-radius:14px;padding:22px;font-family:Georgia,'Times New Roman',serif;font-size:12px;line-height:1.65;color:#333;box-shadow:0 20px 50px rgba(0,0,0,.08);transform:rotate(-.6deg);text-align:left}
+    .sx-ct{font-family:var(--sans);font-weight:700;font-size:11.5px;text-align:center;color:#111;line-height:1.4;margin-bottom:12px}
+    .sx-cl{font-family:var(--sans);font-weight:700;font-size:11px;color:#111;margin-top:11px}
+    .sx-par{margin-top:5px}
+    .sx-papel b{color:#111;background:#FFF1B8;padding:0 2px;border-radius:2px;font-weight:700}
+    .sx-corte{text-align:center;font-family:var(--mono);font-size:10.5px;color:#999;margin:14px 0}
+    .sx-ass{border:1px solid #999;padding:10px 12px;font-family:var(--sans);font-size:10px;line-height:1.55;color:#222}
+    .sx-ass strong{display:block;font-size:10.5px;letter-spacing:.04em;margin-bottom:3px}
+    .sx-hash{font-family:var(--mono);font-size:9.5px;word-break:break-all;color:#555}
+
+    /* celular */
+    .sx-cel{max-width:290px;margin:0 auto;background:#111;border-radius:36px;padding:10px;box-shadow:0 30px 60px rgba(0,0,0,.22);text-align:left;line-height:1.4}
+    .sx-cel-tela{border-radius:28px;overflow:hidden;font-size:11px}
+    .sx-status{display:flex;justify-content:space-between;padding:8px 18px 4px;font-size:10.5px;font-weight:600}
+
+    /* tela do responsável (assinatura) */
+    .sx-pai{background:#EFEDE7;color:#1A1410;padding-bottom:14px}
+    .sx-folhapai{background:#fff;border-radius:14px;margin:6px 10px 0;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    .sx-marca{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-weight:700;font-size:11.5px}
+    .sx-marca .b{color:#8A8A8A}.sx-marca .a{color:#F5B700}.sx-marca .v{color:#1A1410}
+    .sx-marca small{font-family:var(--sans);font-weight:400;font-size:10px;color:#5A5047;border-left:1px solid rgba(26,20,16,.12);padding-left:8px}
+    .sx-van{display:flex;gap:9px;align-items:center;background:#FBFAF7;border-radius:10px;padding:9px;margin:10px 0}
+    .sx-van i{width:30px;height:30px;border-radius:8px;background:#F6C510;display:grid;place-items:center;font-style:normal;font-size:15px;flex:none}
+    .sx-van b{display:block;font-size:11px}
+    .sx-van span{font-size:9.5px;color:#8A7F74}
+    .sx-txt{border:1px solid rgba(26,20,16,.1);border-radius:10px;padding:9px 10px;font-size:9.5px;line-height:1.55;color:#5A5047;height:100px;overflow:hidden;position:relative}
+    .sx-txt::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30px;background:linear-gradient(rgba(255,255,255,0),#fff)}
+    .sx-priv{border:1px solid rgba(26,20,16,.1);border-radius:10px;padding:7px 10px;margin-top:8px;font-size:10px;font-weight:600}
+    .sx-check{display:flex;gap:7px;align-items:flex-start;font-size:10px;margin-top:10px;line-height:1.4}
+    .sx-check i{width:13px;height:13px;border-radius:3px;background:#F4845F;color:#fff;font-style:normal;font-size:9px;display:grid;place-items:center;flex:none;margin-top:1px}
+    .sx-campo{margin-top:9px}
+    .sx-campo small{display:block;font-size:8.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A7F74}
+    .sx-campo div{border:1px solid rgba(26,20,16,.15);border-radius:8px;padding:7px 9px;margin-top:4px;font-size:11px}
+    .sx-campo div.sx-dig{letter-spacing:.3em;font-family:var(--mono)}
+    .sx-codigo{background:#FAEEDA;color:#633806;border-radius:8px;padding:8px 9px;margin-top:9px;font-size:9.5px;line-height:1.45}
+    .sx-codigo em{display:inline-block;font-style:normal;background:#fff;color:#1A1410;border:1px solid rgba(26,20,16,.18);border-radius:999px;padding:4px 9px;font-weight:600;margin-bottom:5px}
+    .sx-assinar{margin-top:11px;background:#F4845F;color:#fff;text-align:center;border-radius:999px;padding:9px;font-weight:600;font-size:11.5px}
+
+    /* roteiro */
+    .sx-rt{background:#141416;color:#EDEDED;padding-bottom:10px}
+    .sx-rt .sx-status{background:#0E0E10}
+    .sx-rt-topo{background:#0E0E10;display:flex;justify-content:space-between;align-items:center;padding:4px 14px 10px;font-size:10.5px}
+    .sx-rt-topo>span{color:rgba(255,248,242,.85)}
+    .sx-rt-topo div{text-align:right;line-height:1.3}
+    .sx-rt-topo b{display:block;font-size:11.5px;color:#fff}
+    .sx-rt-topo small{font-size:9.5px;color:rgba(255,248,242,.7)}
+    .sx-rt-in{padding:10px 10px 0}
+    .sx-seg{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:#1E1E22;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:3px;margin-bottom:7px}
+    .sx-seg span{text-align:center;padding:7px 4px;border-radius:7px;font-size:10px;font-weight:600;color:#9A9AA2}
+    .sx-seg span.on{background:#F6C510;color:#1A1500}
+    .sx-res{background:#1E1E22;border-radius:12px;padding:10px;margin:2px 0 8px}
+    .sx-plaq{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+    .sx-plaq b{display:inline-block;font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500;font-size:17px;color:#F6C510;background:#2A2A2E;padding:1px 8px;border-radius:3px;position:relative;margin-bottom:2px}
+    .sx-plaq b::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.7)}
+    .sx-plaq span{display:block;font-size:9px;color:#9A9AA2}
+    .sx-saida{display:flex;justify-content:space-between;align-items:center;font-size:10px;margin:9px 0 7px}
+    .sx-saida em{font-style:normal;border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:3px 8px;font-family:'IBM Plex Mono',ui-monospace,monospace}
+    .sx-ir{background:#F6C510;color:#1A1500;text-align:center;border-radius:999px;padding:8px;font-weight:600;font-size:11px}
+    .sx-prog{text-align:center;font-size:10px;font-weight:600;margin-top:7px}
+    .sx-mapa{border-radius:12px;overflow:hidden;margin-bottom:8px}
+    .sx-mapa svg{display:block;width:100%;height:auto}
+    .sx-pulso{transform-box:fill-box;transform-origin:center;animation:sxPulso 1.6s ease-out infinite}
+    @keyframes sxPulso{from{transform:scale(1);opacity:.7}to{transform:scale(2.3);opacity:0}}
+    @media (prefers-reduced-motion:reduce){.sx-pulso{animation:none;opacity:0}}
+    .sx-parada{display:grid;grid-template-columns:26px 1fr auto;gap:3px 9px;align-items:start;background:#1E1E22;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px;margin-bottom:7px}
+    .sx-parada.prox{border:2px solid #F6C510}
+    .sx-parada.feita{opacity:.55}
+    .sx-n{width:26px;height:26px;border-radius:50%;background:#2A2A2E;color:#F6C510;display:grid;place-items:center;font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500;font-size:12px}
+    .prox .sx-n{background:#F6C510;color:#1A1500}
+    .feita .sx-n{background:#5CCB98;color:#0B2519}
+    .sx-hora{display:block;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;color:#F6C510}
+    .sx-nome{display:block;font-size:12.5px;font-weight:600}
+    .sx-sub{display:block;font-size:9.5px;color:#9A9AA2;margin-top:2px}
+    .sx-alerg{display:block;font-size:9.5px;font-weight:600;margin-top:5px;padding:4px 7px;border-radius:6px;background:#3D1B1B;color:#F6B1B1}
+    .sx-selo{font-size:8.5px;font-weight:700;letter-spacing:.05em;padding:3px 7px;border-radius:999px;white-space:nowrap;background:#F6C510;color:#1A1500}
+    .sx-selo.verde{background:#173A2C;color:#A6E8C9}
+    .sx-bts{grid-column:1/-1;display:flex;gap:6px;margin-top:6px}
+    .sx-bts span{flex:1;text-align:center;border-radius:999px;padding:7px 4px;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.2);color:#EDEDED}
+    .sx-bts span.verde{flex:1.6;background:#5CCB98;color:#0B2519;border-color:#5CCB98}
 
     /* oferta para transportadores */
-    .oferta{margin-top:64px;background:var(--carvao);color:#fff;border-radius:20px;padding:40px;display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center}
+    .oferta{margin-top:80px;background:var(--carvao);color:#fff;border-radius:20px;padding:40px;display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center}
     .oferta h3{font-size:clamp(24px,3vw,32px);letter-spacing:-.5px;line-height:1.2}
     .oferta .txt{color:#bbb;margin-top:10px;font-size:15px}
     .oferta .price{color:#fff}
@@ -326,64 +461,233 @@
   <div class="wrap">
     <p class="eyebrow reveal">projetos</p>
     <h2 class="reveal">Um sistema de verdade, feito do zero.</h2>
-    <p class="lead reveal">Além de sites, eu crio painéis sob medida que tiram o papel e a planilha do dia a dia. Este é um deles.</p>
+    <p class="lead reveal">Além de sites, eu crio sistemas sob medida que tiram o papel e a planilha do dia a dia. Este foi o primeiro, e continua crescendo.</p>
 
     <div class="case">
       <div class="reveal">
         <h3>Van Escolar Tia Patrícia e Tio Vitor</h3>
         <p class="local">Transporte escolar · Jandira e Barueri (SP)</p>
         <h4>O problema</h4>
-        <p>Contratos em papel, mensalidades anotadas à mão e cobrança feita de cabeça, mensagem por mensagem.</p>
+        <p>Contratos em papel, mensalidades anotadas à mão, cobrança feita de cabeça, mensagem por mensagem, e as informações das crianças espalhadas entre caderno e WhatsApp.</p>
         <h4>O que eu fiz</h4>
-        <p>Um painel online, só para a equipe da van, que organiza o ano inteiro:</p>
-        <ul>
-          <li>Contrato gerado a partir de um modelo e enviado ao responsável pelo WhatsApp</li>
-          <li>Assinatura eletrônica pelo celular, com código de confirmação por e-mail e PDF assinado enviado na hora</li>
-          <li>Controle das 12 mensalidades, com pagamento em dinheiro ou Pix e recibo pronto para enviar</li>
-          <li>Lista diária de quem lembrar do vencimento e de quem está em atraso</li>
-          <li>Funciona no computador e no celular, como um aplicativo</li>
-        </ul>
+        <p>Um painel online, só para a equipe da van, que cuida do ano inteiro: do contrato assinado pelo celular até a última criança entregue em casa. Ao entrar, a equipe já vê o quadro do dia, com o que precisa ser feito agora. Funciona no computador e no celular, onde pode ser instalado como aplicativo.</p>
         <h4>Tecnologias</h4>
-        <div class="techs"><span>HTML · CSS · JavaScript</span><span>Supabase</span><span>Vercel</span><span>Resend</span></div>
+        <div class="techs"><span>HTML · CSS · JavaScript</span><span>Supabase</span><span>Edge Functions</span><span>Vercel</span><span>Resend</span><span>Leaflet + OpenStreetMap</span><span>OSRM</span></div>
       </div>
 
+      <!-- Tela inicial do painel (recriada, dados fictícios) -->
       <div class="reveal" aria-hidden="true">
-        <div class="mock">
-          <div class="mock-top">
-            <div class="mock-logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span><small>Tia Patrícia e Tio Vitor</small></div>
-            <div class="mock-tabs"><span class="on">Contratos</span><span>Financeiro</span><span>Responsáveis</span></div>
-          </div>
-          <div class="mock-body">
-            <div class="mock-stats">
-              <div class="mock-stat"><small>Assinados</small><b class="v">38</b></div>
-              <div class="mock-stat"><small>Aguardando</small><b class="l">5</b></div>
-              <div class="mock-stat"><small>Vagas livres</small><b>M 2 · T 1</b></div>
+        <div class="sx-janela">
+          <div class="sx-janela-barra"><i></i><i></i><i></i><span>🔒 painel da van · Início</span></div>
+          <div class="sx-lousa">
+            <div class="sx-topo">
+              <div class="sx-logo"><span class="b">&lt;</span>vitr<span class="a">api</span><span class="b">/&gt;</span><small>Tia Patrícia e Tio Vitor</small></div>
+              <div class="sx-abas"><span class="on">Início</span><span>Contratos</span><span>Financeiro</span><span>Roteiro</span><span>Documentos (1)</span></div>
             </div>
-            <div class="mock-tab">
-              <div class="mock-row"><div>Ana Souza<small>(11) 9 0000-0001</small></div><div>Miguel<small>3º ano · Manhã</small></div><span class="mock-tag ok">Assinado</span></div>
-              <div class="mock-row"><div>Carlos Lima<small>(11) 9 0000-0002</small></div><div>Laura<small>Pré · Tarde</small></div><span class="mock-tag esp">Aguardando</span></div>
-              <div class="mock-row"><div>Juliana Reis<small>(11) 9 0000-0003</small></div><div>Pedro<small>6º ano · Manhã</small></div><span class="mock-tag ok">Assinado</span></div>
+            <div class="sx-corpo">
+              <div class="sx-ola">
+                <div><b>Bom dia, Patrícia</b><small>Quinta-feira, 4 de março</small></div>
+                <div class="sx-nums">
+                  <div><b>41 de 46</b><span>lugares ocupados</span></div>
+                  <div><b class="warn">R$ 1.920,00</b><span>em aberto em março</span></div>
+                  <div><b>38</b><span>contratos assinados</span></div>
+                </div>
+              </div>
+              <div class="sx-chips"><span class="on">Manhã e tarde</span><span>Só manhã</span><span>Só tarde</span></div>
+              <div class="sx-folha"><div>Conferir a folha de pagamento de março<small>Faltam 6 de 41 mensalidades, somando R$ 1.920,00</small></div><em>Abrir Financeiro</em></div>
+              <div class="sx-quadro">
+                <div>
+                  <div class="sx-col-t">Fazer agora<span>3</span></div>
+                  <div class="sx-recado sx-rosa" style="--g:-1.2deg"><small>Atrasada há 6 dias</small><b>Marcos Lima</b><span>Bia Lima, março, R$ 320,00</span><em>Cobrar no WhatsApp</em></div>
+                  <div class="sx-recado sx-amarelo" style="--g:.9deg"><small>Aniversário hoje</small><b>Davi faz 8 anos</b><span>Turma da manhã</span><em>Mandar parabéns</em></div>
+                  <div class="sx-recado sx-amarelo" style="--g:-.5deg"><small>Vence hoje</small><b>João Reis</b><span>Pedro Reis, março, R$ 320,00</span><em>Lembrar no WhatsApp</em></div>
+                </div>
+                <div>
+                  <div class="sx-col-t">Esta semana<span>3</span></div>
+                  <div class="sx-recado sx-amarelo" style="--g:.7deg"><small>Vence amanhã</small><b>Fernanda Alves</b><span>Laura Alves, março, R$ 290,00</span><em>Lembrar no WhatsApp</em></div>
+                  <div class="sx-recado sx-lilas" style="--g:-1deg"><small>Sem assinar há 4 dias</small><b>Paulo Mendes</b><span>Contrato de Helena Mendes</span><em>Reenviar link</em></div>
+                  <div class="sx-recado sx-azul" style="--g:.6deg"><small>Vence em 5 dias</small><b>Vistoria do Detran</b><em>Abrir documentos</em></div>
+                </div>
+                <div>
+                  <div class="sx-col-t">Feito hoje<span>2</span></div>
+                  <div class="sx-recado sx-verde" style="--g:-.8deg"><small>Pagamento no Pix</small><b>Ana Souza</b><span>Lucas Souza, março, R$ 320,00</span></div>
+                  <div class="sx-recado sx-verde" style="--g:1deg"><small>Lembrete enviado</small><b>Carla Dias</b><span>Sofia Dias, março, R$ 320,00</span></div>
+                </div>
+              </div>
             </div>
-            <div class="mock-meses"><span>Mensalidades</span><i class="p">P</i><i class="d">D</i><i class="p">P</i><i class="p">P</i><i class="d">D</i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
           </div>
         </div>
-        <p class="mock-nota">// ilustração com dados fictícios</p>
+        <div class="sx-nota">// tela inicial do painel · dados fictícios</div>
       </div>
+    </div>
+
+    <div class="grupos">
+      <div class="grupo reveal">
+        <p class="gi">contratos</p>
+        <h4>Do papel para o celular</h4>
+        <ul>
+          <li>Contrato gerado a partir do modelo e enviado pelo WhatsApp</li>
+          <li>Assinatura pelo celular, confirmada com código por e-mail</li>
+          <li>PDF assinado com data, hora e código de verificação</li>
+          <li>Controle automático das vagas de cada turma</li>
+        </ul>
+      </div>
+      <div class="grupo reveal">
+        <p class="gi">dinheiro</p>
+        <h4>Mensalidades sem caderno</h4>
+        <ul>
+          <li>As 12 mensalidades, com recibo e extrato por família</li>
+          <li>Lembrete e cobrança no WhatsApp já com Pix copia e cola no valor certo</li>
+          <li>Despesas da van e quanto sobrou no mês</li>
+          <li>Gráfico do esperado e do recebido, mês a mês</li>
+        </ul>
+      </div>
+      <div class="grupo reveal">
+        <p class="gi">dia a dia</p>
+        <h4>O que fazer hoje, na ordem certa</h4>
+        <ul>
+          <li>Quadro do dia: quem cobrar, quem lembrar, quem faz aniversário</li>
+          <li>Roteiro no mapa com a melhor ordem das paradas, calculada sozinha</li>
+          <li>"Embarcou" e "Entregue" aparecem nos celulares da equipe, mesmo sem sinal na hora</li>
+          <li>Documentos da van com aviso antes de vencer e lembrete na agenda</li>
+        </ul>
+      </div>
+      <div class="grupo reveal">
+        <p class="gi">segurança</p>
+        <h4>Cuidado com as crianças</h4>
+        <ul>
+          <li>Ficha de saúde, com alergias em destaque no roteiro</li>
+          <li>Contatos de emergência com botão de ligar</li>
+          <li>Lista de quem pode buscar cada criança na volta</li>
+          <li>Comunicado para todas as famílias em poucos toques</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Por dentro: contrato, tela do responsável e roteiro (recriados, dados fictícios) -->
+    <div class="sx-galeria-topo reveal">
+      <p class="eyebrow">por dentro</p>
+      <div class="sx-tit">As telas do sistema</div>
+      <div class="sx-sub2">Do contrato até a porta de casa. Telas recriadas com dados fictícios: nomes, endereços e valores são inventados.</div>
+    </div>
+
+    <div class="sx-galeria">
+      <!-- 1. Contrato -->
+      <figure class="reveal">
+        <div class="sx-papel" aria-hidden="true">
+          <div class="sx-ct">CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE TRANSPORTE DE ESTUDANTES · 2027</div>
+          <div class="sx-par">CONTRATANTE: <b>Ana Souza</b>, CPF <b>000.000.000-00</b>, telefone <b>(11) 9xxxx-xxxx</b>, e-mail <b>familia1@exemplo.com</b>, residente no endereço de embarque indicado abaixo.</div>
+          <div class="sx-par">ALUNO(A): <b>Lucas Souza</b>, <b>3º ano</b>, turma da <b>manhã</b>.</div>
+          <div class="sx-par">ENDEREÇO DE EMBARQUE: <b>Rua das Flores, 100</b>, <b>Centro</b>.</div>
+          <div class="sx-cl">Cláusula 1ª – VIGÊNCIA.</div>
+          <div class="sx-par">O presente contrato terá validade de <b>01/01/2027</b> a <b>31/12/2027</b> e poderá ser renovado para o ano seguinte, mediante assinatura de novo contrato.</div>
+          <div class="sx-cl">Cláusula 4ª – VALOR DA PARCELA.</div>
+          <div class="sx-par">O valor de cada parcela será de <b>R$ 320,00</b> de janeiro a junho e de <b>R$ 352,00</b> de julho a dezembro. As parcelas vencerão no dia <b>10</b> de cada mês e poderão ser pagas em dinheiro ou Pix.</div>
+          <div class="sx-cl">Cláusula 10ª – PESSOAS AUTORIZADAS.</div>
+          <div class="sx-par">Na volta, o(a) aluno(a) somente será entregue ao CONTRATANTE ou às pessoas que ele autorizar por escrito. Em nenhuma hipótese o(a) aluno(a) será deixado(a) sozinho(a).</div>
+          <div class="sx-corte">· · · 22 cláusulas no total · · ·</div>
+          <div class="sx-ass">
+            <strong>ASSINATURA ELETRÔNICA</strong>
+            Assinado por Ana Souza, CPF 000.000.000-00, em 12/12/2026 às 19:42.<br>
+            Endereço de rede (IP): 000.000.000.000<br>
+            Impressão digital do documento:<br>
+            <span class="sx-hash">9F3A6C21E0B47D58A1C93F2E6B0D4A7C</span>
+          </div>
+        </div>
+        <figcaption class="sx-leg"><b>o contrato</b><span>Montado sozinho a partir do modelo da van, com os dados de cada família destacados. Depois de assinado, vira um PDF com o registro da assinatura.</span></figcaption>
+      </figure>
+
+      <!-- 2. Tela do responsável -->
+      <figure class="reveal">
+        <div class="sx-cel" aria-hidden="true">
+          <div class="sx-cel-tela sx-pai">
+            <div class="sx-status"><span>9:41</span><span>5G ▮</span></div>
+            <div class="sx-folhapai">
+              <div class="sx-marca"><span><span class="b">&lt;</span><span class="v">vitr</span><span class="a">api</span><span class="b">/&gt;</span></span><small>Tia Patrícia e Tio Vitor</small></div>
+              <div class="sx-van"><i>🚐</i><div><b>Contrato de transporte escolar 2027</b><span>Van Escolar Tia Patrícia e Tio Vitor</span></div></div>
+              <div class="sx-txt">CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE TRANSPORTE DE ESTUDANTES · 2027<br><br>CONTRATANTE: Ana Souza, CPF 000.000.000-00, telefone (11) 9xxxx-xxxx, e-mail familia1@exemplo.com.<br>ALUNO(A): Lucas Souza, 3º ano, turma da manhã.<br>ENDEREÇO DE EMBARQUE: Rua das Flores, 100, Centro.<br><br>Cláusula 1ª – VIGÊNCIA. O presente contrato terá validade de 01/01/2027 a 31/12/2027…</div>
+              <div class="sx-priv">Como usamos seus dados ▸</div>
+              <div class="sx-check"><i>✓</i>Li o contrato inteiro e concordo com todas as cláusulas.</div>
+              <div class="sx-campo"><small>Seu nome completo</small><div>Ana Souza</div></div>
+              <div class="sx-campo"><small>CPF</small><div>000.000.000-00</div></div>
+              <div class="sx-codigo"><em>Reenviar código</em><br>Enviamos um código para fa•••@exemplo.com. Ele vale por 15 minutos. Confira também a caixa de spam.</div>
+              <div class="sx-campo"><small>Código de 6 números recebido por e-mail</small><div class="sx-dig">482197</div></div>
+              <div class="sx-assinar">Assinar contrato</div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="sx-leg"><b>tela do responsável</b><span>O pai ou a mãe abre o link no celular, lê o contrato, recebe um código por e-mail e assina. Sem imprimir nada, e o PDF chega no e-mail na hora.</span></figcaption>
+      </figure>
+
+      <!-- 3. Roteiro -->
+      <figure class="reveal">
+        <div class="sx-cel" aria-hidden="true">
+          <div class="sx-cel-tela sx-rt">
+            <div class="sx-status"><span>6:58</span><span>5G ▮</span></div>
+            <div class="sx-rt-topo"><span>← Painel</span><div><b>Roteiro da van</b><small>Quinta-feira, 4 de março</small></div></div>
+            <div class="sx-rt-in">
+              <div class="sx-seg"><span class="on">☀️ Manhã</span><span>🌇 Tarde</span></div>
+              <div class="sx-seg"><span class="on">Ida · buscar em casa</span><span>Volta · levar para casa</span></div>
+              <div class="sx-res">
+                <div class="sx-plaq"><div><b>9</b><span>crianças</span></div><div><b>14,2</b><span>km</span></div><div><b>~38</b><span>minutos</span></div></div>
+                <div class="sx-saida">Que horas a van sai? <em>06:30</em></div>
+                <div class="sx-ir">▶ Começar no Google Maps</div>
+                <div class="sx-prog">3 de 7 paradas feitas · próxima: Sofia Dias</div>
+              </div>
+              <div class="sx-mapa">
+                <svg viewBox="0 0 280 170" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="280" height="170" fill="#1B1D22"/>
+                  <rect x="164" y="112" width="30" height="34" rx="4" fill="#1E2A22"/>
+                  <g stroke="#2C2F36" stroke-width="7" fill="none" stroke-linecap="round"><path d="M0 30H280M0 80H280M0 132H280M40 0V170M118 0V170M200 0V170M252 0V170"/></g>
+                  <g stroke="#24272D" stroke-width="3" fill="none"><path d="M0 55H280M0 106H280M79 0V170M160 0V170M226 0V170"/></g>
+                  <path d="M22 148 L60 124 L95 110 L150 96 L150 62 L190 40 L225 62 L240 100 L262 140" fill="none" stroke="#0E0E10" stroke-opacity=".6" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+                  <path d="M22 148 L60 124 L95 110 L150 96 L150 62 L190 40 L225 62 L240 100 L262 140" fill="none" stroke="#F6C510" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+                  <g font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" text-anchor="middle">
+                    <circle cx="22" cy="148" r="9" fill="#fff" stroke="#0E0E10" stroke-width="1.5"/><text x="22" y="151.5">🚐</text>
+                    <circle cx="60" cy="124" r="8.5" fill="#1D9E75" stroke="#fff" stroke-width="1.5"/><text x="60" y="127.2" fill="#fff">1</text>
+                    <circle cx="95" cy="110" r="8.5" fill="#1D9E75" stroke="#fff" stroke-width="1.5"/><text x="95" y="113.2" fill="#fff">2</text>
+                    <circle cx="150" cy="96" r="8.5" fill="#1D9E75" stroke="#fff" stroke-width="1.5"/><text x="150" y="99.2" fill="#fff">3</text>
+                    <circle class="sx-pulso" cx="150" cy="62" r="11" fill="#F6C510"/>
+                    <circle cx="150" cy="62" r="11" fill="#F6C510" stroke="#fff" stroke-width="2"/><text x="150" y="65.6" fill="#0E0E10" font-size="10">4</text>
+                    <circle cx="190" cy="40" r="8.5" fill="#0E0E10" stroke="#fff" stroke-width="1.5"/><text x="190" y="43.2" fill="#F6C510">5</text>
+                    <circle cx="225" cy="62" r="8.5" fill="#0E0E10" stroke="#fff" stroke-width="1.5"/><text x="225" y="65.2" fill="#F6C510">6</text>
+                    <circle cx="240" cy="100" r="8.5" fill="#0E0E10" stroke="#fff" stroke-width="1.5"/><text x="240" y="103.2" fill="#F6C510">7</text>
+                    <circle cx="262" cy="140" r="9" fill="#fff" stroke="#0E0E10" stroke-width="1.5"/><text x="262" y="143.5">🏫</text>
+                  </g>
+                </svg>
+              </div>
+              <div class="sx-parada prox">
+                <span class="sx-n">4</span>
+                <div><span class="sx-hora">07:02</span><span class="sx-nome">Sofia Dias</span><span class="sx-sub">Rua do Sol, 151 · Vila Nova</span><span class="sx-sub">Responsável: Carla Dias · (11) 9xxxx-xxxx</span><span class="sx-alerg">⚠ Alergia: amendoim</span></div>
+                <span class="sx-selo">PRÓXIMA</span>
+                <div class="sx-bts"><span>Waze</span><span>Ligar</span><span class="verde">✓ Embarcou</span></div>
+              </div>
+              <div class="sx-parada feita">
+                <span class="sx-n">3</span>
+                <div><span class="sx-hora">06:54</span><span class="sx-nome">Pedro Reis</span><span class="sx-sub">Avenida Central, 134 · Centro</span></div>
+                <span class="sx-selo verde">✓ Embarcou · 06:55</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="sx-leg"><b>roteiro da van</b><span>A ordem das paradas é calculada sozinha. A próxima casa fica em destaque, com os avisos de saúde, e quando a equipe toca em "Embarcou" o outro celular vê na hora.</span></figcaption>
+      </figure>
     </div>
 
     <div class="oferta reveal">
       <div>
         <p class="eyebrow">para transportadores escolares</p>
         <h3>Quer esse painel na sua van?</h3>
-        <p class="txt">O mesmo sistema, com o nome e as cores da sua van. Você usa o seu próprio modelo de contrato.</p>
+        <p class="txt">O mesmo sistema, com o nome e as cores da sua van e o seu próprio modelo de contrato.</p>
         <div class="price">R$ 75 <small>/ mês</small></div>
       </div>
       <div>
         <ul>
           <li>Contratos com assinatura online pelo celular</li>
-          <li>Mensalidades em dinheiro ou Pix, com recibo</li>
-          <li>Lembretes de vencimento e cobrança pelo WhatsApp</li>
-          <li>Funciona no computador e no celular</li>
+          <li>Mensalidades, recibos e cobrança com Pix copia e cola</li>
+          <li>Roteiro no mapa com a ordem das paradas</li>
+          <li>Ficha de saúde e contatos de emergência</li>
+          <li>Aviso de vencimento dos documentos da van</li>
           <li>Suporte pelo WhatsApp, direto comigo</li>
         </ul>
         <a href="#contato" data-servico="van" class="btn btn-y">Contratar o painel →</a>
