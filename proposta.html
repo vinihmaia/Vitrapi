@@ -95,7 +95,7 @@
   </section>
 </div>
 
-<script src="js/jspdf.umd.min.js"></script>
+<script src="jspdf.umd.min.js"></script>
 <script>
 (function () {
   // ===== DADOS DA VITRAPI (conferir) =====
@@ -192,7 +192,7 @@
     }
     const j = await r.json().catch(() => ({}));
     if (r.status === 401) { sessionStorage.removeItem('vitrapi-links'); throw new Error('a senha está incorreta. Clique em "Gerar PDF e links" de novo.'); }
-    if (r.status === 404) throw new Error('a API não foi encontrada. Confira se a pasta "api" com o arquivo "link.js" foi publicada.');
+    if (r.status === 404) throw new Error('a API não foi encontrada. Confira se o arquivo "api/link.js" foi publicado.');
     if (!r.ok || !j.sig) throw new Error((j.erro ? j.erro + ' ' : '') + 'Os links não foram carimbados.');
     sessionStorage.setItem('vitrapi-links', senha);
     u.searchParams.set('sig', j.sig);
@@ -324,7 +324,7 @@
   $('rascunho').addEventListener('click', () => { const d = ler(false); if (!d) return; salvar(d, 'rascunho'); $('erro').style.color = '#085041'; $('erro').textContent = 'Rascunho salvo.'; setTimeout(() => { $('erro').textContent = ''; $('erro').style.color = ''; }, 2000); });
   $('gerar').addEventListener('click', async () => {
     const d = ler(true); if (!d) return;
-    if (!window.jspdf) { $('erro').textContent = 'Não foi possível carregar o gerador de PDF. Confira a internet e recarregue a página.'; return; }
+    if (!window.jspdf) { $('erro').textContent = 'Não foi possível carregar o gerador de PDF. Confira se o arquivo "jspdf.umd.min.js" foi publicado ao lado deste arquivo.'; return; }
     try { gerarPDF(d); } catch (e) { $('erro').textContent = 'Algo deu errado ao gerar o PDF. Tente de novo.'; return; }
     salvar(d, 'enviada');
     const botao = $('gerar'); botao.disabled = true; botao.textContent = 'Carimbando os links…';

@@ -124,7 +124,7 @@
   </div>
 </div>
 
-<script src="js/jspdf.umd.min.js"></script>
+<script src="jspdf.umd.min.js"></script>
 <script>
   // ===== DADOS DA VITRAPI (conferir) =====
 const VERSAO = '1.1';
@@ -145,7 +145,8 @@ const CONTRATADA = { nome: 'Vinicius Maia', fantasia: 'Vitrapi', doc: '', cidade
   const FORMA = P.get('forma') === 'mensal' ? 'mensal' : 'unico';
   const PRAZO = parseInt(P.get('prazo'), 10) || 0;
   const ESCOPO = (P.get('escopo') || '').trim().slice(0, 1500);
-  const MODO = P.has('gerar') ? 'gerar' : SERV === 'van' ? 'painel' : (SERVICOS[SERV] && VALOR > 0 && ESCOPO) ? 'projeto' : 'erro';
+  // O gerador antigo (?gerar) foi desligado: os links agora são gerados e carimbados no proposta.html
+  const MODO = P.has('gerar') ? 'erro' : SERV === 'van' ? 'painel' : (SERVICOS[SERV] && VALOR > 0 && ESCOPO) ? 'projeto' : 'erro';
   const NOME_SERV = SERVICOS[SERV] || 'Serviço';
 
   // ---------- texto do contrato (sem travessões nem aspas curvas, para o PDF sair certinho) ----------
@@ -231,41 +232,12 @@ const CONTRATADA = { nome: 'Vinicius Maia', fantasia: 'Vitrapi', doc: '', cidade
   // ---------- telas ----------
   const form = $('dados');
   const lerDados = () => Object.fromEntries(new FormData(form));
-  $('versao').textContent = 'Versão ' + VERSAO + (MODO === 'gerar' ? ' · gerador interno' : ' · leia com atenção antes de assinar');
+  $('versao').textContent = 'Versão ' + VERSAO + ' · leia com atenção antes de assinar';
 
   if (MODO === 'erro') { $('titulo').textContent = 'Contrato'; $('area-erro').hidden = false; }
 
-  if (MODO === 'gerar') {
-    $('titulo').textContent = 'Gerar contrato e pagamento';
-    $('area-gerador').hidden = false;
-    $('g-servico').innerHTML = Object.entries(SERVICOS).map(([k, n]) => '<option value="' + k + '">' + esc(n) + '</option>').join('');
-    const ajustar = () => { const van = $('g-servico').value === 'van'; ['g-forma', 'g-valor', 'g-escopo'].forEach(id => { $(id).disabled = van; }); if (van) { $('g-valor').value = 75; $('g-forma').value = 'mensal'; } };
-    $('g-servico').addEventListener('change', ajustar); ajustar();
-    $('g-gerar').addEventListener('click', () => {
-      const g = Object.fromEntries(new FormData($('gerador'))), erro = $('g-erro'); erro.textContent = '';
-      const serv = $('g-servico').value, van = serv === 'van';
-      const valor = van ? 75 : Math.round(Number(g.valor) * 100) / 100;
-      if (!van && !(valor > 0)) { erro.textContent = 'Informe o valor.'; return; }
-      if (!van && !(g.escopo || '').trim()) { erro.textContent = 'Descreva o escopo.'; return; }
-      const forma = van ? 'mensal' : g.forma;
-      const base = new URL('contrato.html', location.href);
-      if (van) base.searchParams.set('servico', 'van');
-      else { base.searchParams.set('servico', serv); base.searchParams.set('valor', valor.toFixed(2)); base.searchParams.set('forma', forma); if (parseInt(g.prazo, 10) > 0) base.searchParams.set('prazo', parseInt(g.prazo, 10)); base.searchParams.set('escopo', g.escopo.trim()); }
-      const cobrar = forma === 'unico' ? Math.round(valor * 50) / 100 : valor;
-      const ref = (forma === 'unico' ? 'Entrada (50%) · ' : 'Mensalidade · ') + SERVICOS[serv];
-      const pag = new URL('pagar.html', location.href); pag.searchParams.set('valor', cobrar.toFixed(2)); pag.searchParams.set('ref', ref);
-      $('g-contrato').value = base.href; $('g-abrir').href = base.href;
-      $('g-pagar').value = pag.href; $('g-rotulo-pag').textContent = 'Link de pagamento · ' + ref + ' · ' + brl(cobrar);
-      $('g-saida').hidden = false;
-    });
-    document.querySelectorAll('[data-copiar]').forEach(b => b.addEventListener('click', async () => {
-      const i = $(b.dataset.copiar); try { await navigator.clipboard.writeText(i.value); } catch (e) { i.select(); document.execCommand('copy'); }
-      const t = b.textContent; b.textContent = 'Copiado!'; setTimeout(() => { b.textContent = t; }, 1500);
-    }));
-  }
-
   if (MODO === 'painel' || MODO === 'projeto') {
-    $('area-contrato').hidden = false;
+    /* o contrato só aparece depois de conferir o link (fim do arquivo) */
     $('titulo').textContent = MODO === 'painel' ? 'Contrato do painel para transporte escolar' : 'Contrato · ' + NOME_SERV;
     $('rotulo-negocio').textContent = MODO === 'painel' ? 'Nome da van' : 'Nome do negócio';
     const itens = MODO === 'painel'
@@ -290,7 +262,6 @@ const CONTRATADA = { nome: 'Vinicius Maia', fantasia: 'Vitrapi', doc: '', cidade
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#1F1F1F';
   }
-  if (MODO === 'painel' || MODO === 'projeto') prepararQuadro();
   const ponto = e => { const r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
   cv.addEventListener('pointerdown', e => { desenhando = true; cv.setPointerCapture(e.pointerId); const p = ponto(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + .1, p.y + .1); ctx.stroke(); assinou = true; $('ph').style.display = 'none'; });
   cv.addEventListener('pointermove', e => { if (!desenhando) return; const p = ponto(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
@@ -354,7 +325,7 @@ const CONTRATADA = { nome: 'Vinicius Maia', fantasia: 'Vitrapi', doc: '', cidade
     if (n !== 11 && n !== 14) { erro.textContent = 'Confira o CPF (11 números) ou o CNPJ (14 números).'; return; }
     if (!assinou) { erro.textContent = 'Desenhe sua assinatura no quadro.'; return; }
     if (!$('aceite').checked) { erro.textContent = 'Marque que leu e concorda com o contrato.'; return; }
-    if (!window.jspdf) { erro.textContent = 'Não foi possível carregar o gerador de PDF. Confira a internet e recarregue a página.'; return; }
+    if (!window.jspdf) { erro.textContent = 'Não foi possível carregar o gerador de PDF. Recarregue a página ou fale com a Vitrapi pelo WhatsApp (11) 94379-9108.'; return; }
     const b = $('assinar'); b.disabled = true; b.textContent = 'Gerando o PDF…';
     try { await gerarPDF(d); } catch (e) { erro.textContent = 'Algo deu errado ao gerar o PDF. Tente de novo.'; b.disabled = false; b.textContent = 'Assinar e baixar PDF'; return; }
     b.hidden = true;
@@ -364,6 +335,23 @@ const CONTRATADA = { nome: 'Vinicius Maia', fantasia: 'Vitrapi', doc: '', cidade
   });
   $('compartilhar').addEventListener('click', async () => { try { await navigator.share({ files: [arquivoPDF], title: 'Contrato assinado' }); } catch (e) { } });
   $('baixar').addEventListener('click', () => { if (docPDF) docPDF.save(nomeArquivo); });
+
+  // ---------- conferência do link pela API /api/link ----------
+  (async function conferirLink() {
+    if (MODO !== 'painel' && MODO !== 'projeto') return;
+    const recusar = msg => { $('titulo').textContent = 'Contrato'; $('area-erro').hidden = false; $('area-erro').querySelector('p').textContent = msg; };
+    const sig = P.get('sig') || '';
+    if (!sig) { recusar('Este link não tem o código de conferência. Peça um link novo à Vitrapi pelo WhatsApp (11) 94379-9108.'); return; }
+    const g = k => P.get(k) || '';
+    const dados = { tipo: 'contrato', servico: g('servico'), valor: g('valor'), forma: g('forma'), prazo: g('prazo'), escopo: g('escopo'), ref: g('ref') };
+    try {
+      const r = await fetch('/api/link', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ acao: 'conferir', dados, sig }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || j.ok !== true) { recusar('Este link foi alterado ou não é válido. Peça um link novo à Vitrapi pelo WhatsApp (11) 94379-9108.'); return; }
+    } catch (e) { recusar('Não foi possível conferir o link agora. Confira a internet e abra o link de novo.'); return; }
+    $('area-contrato').hidden = false;
+    prepararQuadro(); /* o quadro de assinatura só mede o tamanho certo depois de aparecer */
+  })();
 </script>
 </body>
 </html>

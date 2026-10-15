@@ -39,7 +39,7 @@
   <p class="aviso">Antes de confirmar, veja se o app mostra <b id="nome-receb"></b> como recebedor. Depois de pagar, envie o comprovante:</p>
   <a class="btn btn-y" href="https://wa.me/5511943799108?text=Oi%20Vinicius!%20Segue%20o%20comprovante%20da%20mensalidade%20do%20painel." target="_blank" rel="noopener">Enviar comprovante no WhatsApp</a>
 </main>
-<script src="js/qrcode.min.js"></script>
+<script src="qrcode.min.js"></script>
 <script>
   // ===== PREENCHER =====
   const CHAVE_PIX = 'viniciusmaia_2022@hotmail.com';
@@ -52,7 +52,6 @@
   const REFERENTE = (PARAMS.get('ref') || 'Mensalidade do painel').slice(0, 80);
 
   // Monta o "Pix copia e cola" no padrão do Banco Central.
-  // Cada informação vira: código de 2 números + tamanho com 2 números + o valor.
   const semAcento = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
   const campo = (id, v) => id + String(v.length).padStart(2, '0') + v;
   function crc16(txt) { // "dígito verificador" exigido pelo padrão Pix
@@ -72,7 +71,6 @@
     return p + crc16(p);
   }
 
-  // Mostra um aviso no lugar do QR e não deixa copiar nada
   function recusar(msg) {
     document.getElementById('valor').textContent = '';
     document.getElementById('copia').value = '';
@@ -82,7 +80,6 @@
     qr.querySelector('.erro').textContent = msg;
   }
 
-  // Confere o carimbo do link na API (link sem valor nem descrição usa o padrão e não precisa)
   async function conferir() {
     if (!PARAMS.has('valor') && !PARAMS.has('ref')) return true;
     const sig = PARAMS.get('sig') || '';
@@ -102,11 +99,8 @@
     try { ok = await conferir(); }
     catch (e) { recusar('Não foi possível conferir este link agora. Confira a internet e abra o link de novo.'); return; }
     if (!ok) { recusar('Este link de pagamento foi alterado ou não é válido. Peça um link novo pelo WhatsApp (11) 94379-9108.'); return; }
+    if (typeof QRCode === 'undefined') { recusar('A página não carregou por completo. Recarregue ou peça o código Pix pelo WhatsApp (11) 94379-9108.'); return; }
     document.getElementById('valor').textContent = 'R$ ' + VALOR.replace('.', ',');
-    if (CHAVE_PIX.includes('COLOQUE')) {
-      document.getElementById('qr').innerHTML = '<p class="erro">Página ainda não configurada: falta a chave Pix.</p>';
-      return;
-    }
     const pix = codigoPix();
     document.getElementById('copia').value = pix;
     document.getElementById('copiar').disabled = false;
